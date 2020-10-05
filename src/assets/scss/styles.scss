@@ -1,0 +1,12 @@
+//variables
+$primary:#00B4F9;
+$secondary:#FAB040;
+$dark:#414042;
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../fontawesome/scss/fontawesome.scss';
+@import '../fontawesome/scss/solid.scss';
+
+body{
+    background-color: #ccc;
+}
