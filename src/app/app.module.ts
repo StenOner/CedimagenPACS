@@ -8,13 +8,27 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ErrorComponent } from './components/error/error.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
+import { GetUserComponent } from './components/get-user/get-user.component';
+import { GetUsersComponent } from './components/get-users/get-users.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { UpdateUserComponent } from './components/update-user/update-user.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UpdateEmailComponent } from './components/update-email/update-email.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ErrorComponent,
-    AuthComponent
+    AuthComponent,
+    NewUserComponent,
+    GetUserComponent,
+    GetUsersComponent,
+    UpdatePasswordComponent,
+    UpdateUserComponent,
+    ProfileComponent,
+    UpdateEmailComponent
   ],
   imports: [
     BrowserModule,

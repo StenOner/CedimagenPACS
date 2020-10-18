@@ -6,15 +6,26 @@ $dark:#414042;
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../fontawesome/scss/fontawesome.scss';
 @import '../fontawesome/scss/solid.scss';
+@import '../fontawesome/scss/brands.scss';
 
 html,
 body {
-  background-image: url('http://getwallpapers.com/wallpaper/full/a/1/5/1436491-widescreen-radiology-wallpapers-1920x1080-for-iphone-5.jpg');
-  //background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+  background-image: url('../img/radiology-background.png');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   height: 100%;
+  color: white;
   font-family: 'Numans', sans-serif;
+  overflow-x: hidden !important;
+}
+
+*{
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar{
+    display: none; /* Chrome */
+  }
 }
 
 .container-fluid {
@@ -27,73 +38,156 @@ body {
   margin-top: auto;
   margin-bottom: auto;
   width: 400px;
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.social_icon span {
-  font-size: 60px;
-  margin-left: 10px;
-  color: $secondary;
-}
-
-.social_icon span:hover {
-  color: white;
-  cursor: pointer;
-}
-
-.card-header h3 {
-  color: white;
+.card-header {
+  h3{
+    color: white;
+  }
 }
 
 .social_icon {
   position: absolute;
   right: 20px;
-  top: -45px;
+  top: -30px;
+  a{
+    font-size: 45px;
+    margin-left: 10px;
+    color: $secondary;
+    &:hover{
+      color: white;
+      cursor: pointer;
+    }
+  }
 }
 
 .input-group-prepend {
   margin: 0;
+  max-width: 38px;
+  span{
+    width: 100%;
+    background-color: $secondary;
+    color: black;
+    border: 0 !important;
+  }
 }
 
-.input-group-prepend span {
-  width: 100%;
-  background-color: $secondary;
-  color: black;
-  border: 0 !important;
-}
-
-input:focus {
-  outline: 0 0 0 0 !important;
-  border-color: $secondary !important;
-  box-shadow: 0 0 0 0 !important;
+input {
+  &:focus{
+    outline: 0 0 0 0 !important;
+    border-color: $secondary !important;
+    box-shadow: 0 0 0 0 !important;
+  }
 }
 
 .remember {
   color: white;
-}
-
-.remember input {
-  width: 20px;
-  height: 20px;
-  margin-left: 15px;
-  margin-right: 5px;
+  input {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-right: 5px;
+  }
 }
 
 .login_btn {
-  color: black;
-  background-color: $secondary;
   width: 100px;
-}
-
-.login_btn:hover {
-  color: black;
-  background-color: white;
+  &:hover{
+    color: white;
+  }
 }
 
 .links {
   color: white;
+  a{
+    margin-left: 4px;
+  }
 }
 
-.links a {
-  margin-left: 4px;
+.custom-link{
+  color: $secondary;
+  &:hover{
+    color: rgba($color: $secondary, $alpha: 0.7);
+  }
+}
+
+.bg-custom{
+  background: transparent;
+  *{
+    color: white;
+    &:hover{
+      color: rgba(255, 255, 255, 0.8)
+    }
+  }
+}
+
+.nav-text{
+  font-size: 18px !important;
+}
+
+.nav-link{
+  padding: 0 0.5rem 0 0.5rem !important;
+  i{   
+    font-size: 30px;
+  }
+}
+
+.dropdown-menu{
+  background: black;
+  *:hover{
+    background: rgba(30, 30, 30, 0.8);
+  }
+  span{
+    cursor: pointer;
+  }
+}
+
+.user-table{
+  width: 100%;
+  tbody{
+    tr{
+      border-top: 1px solid white;
+    }
+  }
+}
+
+.action-link{
+  margin-right: 5px;
+  i{
+    color: $primary;
+  }
+}
+
+.sidebar{
+  height: 100%;
+  width: 15%;
+  position: relative;
+  float: left;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  .sidebar-item{
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba($color: white, $alpha: 0.7);
+    a{
+      color: white;
+      text-transform: capitalize;
+      &:hover{
+        text-decoration: none;
+        color: rgba($color: white, $alpha: 0.8);
+      }
+    }
+  }
+}
+
+.user-info{
+  background-color: rgba(30, 30, 30, 0.8);
+  float: left;
+  width: 85%;
+  padding: 1rem;
+  margin-top: 1rem;
 }

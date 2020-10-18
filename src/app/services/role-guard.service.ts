@@ -8,7 +8,7 @@ import { Environment } from 'src/app/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorizeGuardService implements CanActivate {
+export class RoleGuardService implements CanActivate {
 
   constructor(
     private _authService:AuthService,
@@ -18,10 +18,12 @@ export class AuthorizeGuardService implements CanActivate {
   }
   
   async canActivate(
-    next: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):Promise<boolean>{
       const accessToken = localStorage.getItem(Environment.accessKey);
       const refreshToken = localStorage.getItem(Environment.refreshKey);
+      const payload = this._decypherToken.decodeToken(accessToken);
+      const expectedRole = route.data.expectedRole;
       if (accessToken){
         const isExpired = this._decypherToken.isTokenExpired(accessToken);
         if (isExpired){
@@ -29,7 +31,8 @@ export class AuthorizeGuardService implements CanActivate {
             try{
               const res = await this._authService.refreshToken(accessToken, refreshToken).toPromise();
               localStorage.setItem(Environment.accessKey, res.accessToken);
-              return true;
+              if (payload.userTypeID===expectedRole) return true;
+              return false;
             }catch(err){
               this.removeItems();
               return false;
@@ -39,7 +42,8 @@ export class AuthorizeGuardService implements CanActivate {
             return false;
           }
         }else{
-          return true;
+          if (payload.userTypeID===expectedRole) return true;
+          return false;
         }
       }else{        
         this.removeItems();

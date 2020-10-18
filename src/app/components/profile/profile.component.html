@@ -1,0 +1,22 @@
+<div class="sidebar">
+    <div class="sidebar-item">
+        <a [routerLink]="['/perfil']">Datos generales</a>
+    </div>
+    <div class="sidebar-item">
+        <a [routerLink]="['/actualizar-correo']">Cambiar correo</a>
+    </div>
+    <div class="sidebar-item">
+        <a [routerLink]="['/actualizar-clave']">Cambiar contraseña</a>
+    </div>
+</div>
+<div class="user-info" [ngSwitch]="route">
+    <div *ngSwitchCase="'/perfil'">
+        <p>perfil</p>
+    </div>
+    <div *ngSwitchCase="'/actualizar-correo'">
+        <p>correo</p>
+    </div>
+    <div *ngSwitchCase="'/actualizar-clave'">
+        <p>clave</p>
+    </div>
+</div>

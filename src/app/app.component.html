@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-md" *ngIf="route!='/login'">
+<nav class="navbar bg-custom navbar-expand-md" *ngIf="route!='/inicio-sesion'&&route!='/registro'">
   <a class="navbar-brand">PLACEHOLDER</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,9 +6,37 @@
 </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-text dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Usuarios
+        </a>
+        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
+          <a class="dropdown-item" [routerLink]="['/nuevo-usuario']">
+            Crear usuario
+          </a>
+          <a class="dropdown-item" [routerLink]="['/usuarios']">
+            Ver usuarios
+          </a>
+        </div>
+      </li>
     </ul>
     <ul class="navbar-nav">
-      <a class="btn btn-primary" (click)="logout()">Logout</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" [routerLink]="['/perfil']">
+            Mi perfil
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="dropdown-divider"></div>
+          <span class="dropdown-item" (click)="logout()">
+            Desconectar
+            <i class="fas fa-sign-out-alt"></i>
+          </span>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

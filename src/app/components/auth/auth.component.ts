@@ -14,18 +14,53 @@ import { Environment } from 'src/app/environment/environment';
 })
 export class AuthComponent implements OnInit {
   public login$:Observable<any>;
-  public logout$:Observable<any>;
+  public rememberMe:boolean;
+  public rememberEmail:string;
 
   constructor(
     private _authService:AuthService,
     private router:Router
   ){
     this.login$ = null;
-    this.logout$ = null;
+    this.rememberMe = false;
+    this.rememberEmail = '';
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem(Environment.accessKey&&Environment.refreshKey)) this.router.navigate(['/home']);
+    if (localStorage.getItem(Environment.accessKey&&Environment.refreshKey)) this.router.navigate(['/hogar']);
+    this.getRemember();
+  }
+
+  setRememberMe(){
+    localStorage.setItem(Environment.rememberMeKey, String(this.rememberMe));
+    if (!this.rememberMe) this.removeRemember();
+  }
+
+  setRememberEmail(){
+    if (this.rememberMe) localStorage.setItem(Environment.rememberEmailKey, this.rememberEmail);
+  }
+
+  setRemember(){
+    this.setRememberMe();
+    this.setRememberEmail();
+  }
+
+  getRemember(){
+    let rememberMe = localStorage.getItem(Environment.rememberMeKey);
+    let rememberEmail = localStorage.getItem(Environment.rememberEmailKey);
+    if (rememberMe&&rememberEmail){
+      this.rememberMe = (rememberMe == 'true');
+      this.rememberEmail = rememberEmail;
+      document.getElementById('password').focus();
+    }else{
+      this.removeRemember();
+      document.getElementById('email').focus();
+    }
+  }
+
+  removeRemember(){
+    localStorage.removeItem(Environment.rememberMeKey);
+    localStorage.removeItem(Environment.rememberEmailKey);
   }
 
   onSubmit(email:string, password:string){
@@ -39,7 +74,7 @@ export class AuthComponent implements OnInit {
         if (res.accessToken&&res.refreshToken){
           localStorage.setItem(Environment.accessKey, res.accessToken);
           localStorage.setItem(Environment.refreshKey, res.refreshToken);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/hogar']);
         }
       },
       err=>{
@@ -48,22 +83,4 @@ export class AuthComponent implements OnInit {
       }
     );
   }
-
-  logout(){
-    const token = localStorage.getItem(Environment.refreshKey);
-    if (this.logout$ == null) this.logout$ = this._authService.logout(token).pipe(shareReplay(1));
-    this.logout$.subscribe(
-      res=>{
-        if (res.message){
-          localStorage.removeItem(Environment.accessKey);
-          localStorage.removeItem(Environment.refreshKey);
-        }
-      },
-      err=>{
-        console.log(err.error.message);
-        this.logout$ = null;        
-      }
-    );
-  }
-
 }

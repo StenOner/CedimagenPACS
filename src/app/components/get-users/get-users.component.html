@@ -1,0 +1,36 @@
+<div class="d-flex w-100 p-3">
+    <table class="user-table text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Correo</th>
+                <th>Tipo de Usuario</th>
+                <th>Nombre de Usuario</th>
+                <th>RUC</th>
+                <th>Fecha de creacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users;index as i">
+                <td>{{i+1}}</td>
+                <td>{{user.email}}</td>
+                <td>{{$any(user.userTypeID).type|titlecase}}</td>
+                <td>{{user.userName|titlecase}}</td>
+                <td>{{user.ruc}}</td>
+                <td>{{user.createdAt|date}}</td>
+                <td>
+                    <a class="action-link" [routerLink]="['/usuario', user._id]">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a class="action-link" [routerLink]="['/actualizar-usuario', user._id]">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a class="action-link" [routerLink]="['/eliminar-usuario', user._id]">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

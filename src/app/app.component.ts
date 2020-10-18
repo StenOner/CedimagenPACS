@@ -1,5 +1,7 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 
 import { Environment } from './environment/environment';
@@ -10,9 +12,11 @@ import { Environment } from './environment/environment';
   styleUrls: ['./app.component.scss'],
   providers: [AuthService]
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent implements DoCheck {
   public title:string;
+  public user:JSON;
   public route:string;
+  public logout$:Observable<any>;
 
   constructor(
     private _authService:AuthService,
@@ -20,9 +24,7 @@ export class AppComponent implements OnInit, DoCheck {
   ){
     this.title = 'Cedimagenteleradiologia';
     this.route = router.url;
-  }
-
-  ngOnInit(){
+    this.logout$ = null;
   }
 
   ngDoCheck(){
@@ -30,17 +32,19 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   logout(){
-    this._authService.logout(localStorage.getItem(Environment.refreshKey)).subscribe(
+    if (this.logout$ == null) this.logout$ = this._authService.logout(localStorage.getItem(Environment.refreshKey)).pipe(shareReplay(1));
+    this.logout$.subscribe(
       res=>{
         if (res.message){
           localStorage.removeItem(Environment.accessKey);
           localStorage.removeItem(Environment.refreshKey);
-          this.router.navigate(['/login']);
+          this.router.navigate(['/inicio-sesion']);
         }
       },
       err=>{
         console.log(err.error.message);
+        this.logout$ = null;        
       }
-    )
+    );
   }
 }

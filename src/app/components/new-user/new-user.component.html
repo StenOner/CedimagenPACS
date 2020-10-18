@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center h-100">
+    <div class="card">
+        <div class="card-header">
+            <h3>Registrate</h3>
+            <div class="d-flex justify-content-end social_icon">
+                <a href="https://www.facebook.com/Cedimagen-313556369325053" target="blank">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" [(ngModel)]="email" placeholder="Correo" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirmar Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-primary login_btn float-right" value="Resgistrar">
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-center links">
+                Ya tienes una cuenta?<a class="custom-link" [routerLink]="['/inicio-sesion']">Iniciar sesión</a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="custom-link" href="#">Olvidaste tu contraseña?</a>
+            </div>
+        </div>
+    </div>
+</div>
