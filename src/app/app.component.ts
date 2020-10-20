@@ -1,8 +1,10 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+import { DecypherTokenService } from './services/decypher-token.service';
 
 import { Environment } from './environment/environment';
 
@@ -10,21 +12,33 @@ import { Environment } from './environment/environment';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [AuthService]
+  providers: [AuthService, UserService]
 })
-export class AppComponent implements DoCheck {
+export class AppComponent implements OnInit,DoCheck {
   public title:string;
-  public user:JSON;
+  public userName:string;
   public route:string;
   public logout$:Observable<any>;
 
   constructor(
     private _authService:AuthService,
+    private _decypherTokenService:DecypherTokenService,
     private router:Router
   ){
     this.title = 'Cedimagenteleradiologia';
+    this.userName = '';
     this.route = router.url;
     this.logout$ = null;
+  }
+
+  ngOnInit(){
+    this.getUserName();
+  }
+
+  getUserName(){
+    const token = localStorage.getItem(Environment.accessKey);
+    const payload = this._decypherTokenService.decodeToken(token);
+    this.userName = payload.userName;
   }
 
   ngDoCheck(){

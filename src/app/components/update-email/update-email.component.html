@@ -1,1 +1,20 @@
-<p>update-email works!</p>
+<form (ngSubmit)="onSubmit()">
+    <div class="d-flex w-100">
+        <div class="d-flex flex-column w-50">
+            <div class="form-group">
+                <label for="oldEmail">Correo Actual</label>
+                <input type="email" class="form-control" name="oldEmail" [(ngModel)]="user.email" placeholder="Correo" disabled>
+            </div>
+            <div class="form-group">
+                <label for="newEmail">Nuevo Correo</label>
+                <input type="text" class="form-control" name="newEmail" [(ngModel)]="newEmail" placeholder="nuevo_correo@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center w-50">
+            <img src="../../../assets/img/logo.png" alt="logo CEDIMAGEN">
+        </div>
+    </div>
+</form>

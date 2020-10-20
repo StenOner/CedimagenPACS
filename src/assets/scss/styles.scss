@@ -1,7 +1,8 @@
 //variables
 $primary:#00B4F9;
 $secondary:#FAB040;
-$dark:#414042;
+$betterGrey:#464649;
+$notSoDark:#1E1E1E;
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../fontawesome/scss/fontawesome.scss';
@@ -38,7 +39,7 @@ body {
   margin-top: auto;
   margin-bottom: auto;
   width: 400px;
-  background-color: rgba(0, 0, 0, 0.7) !important;
+  background-color: rgba($color: black, $alpha: 0.7) !important;
 }
 
 .card-header {
@@ -117,7 +118,7 @@ input {
   *{
     color: white;
     &:hover{
-      color: rgba(255, 255, 255, 0.8)
+      color: rgba($color: white, $alpha: 0.8)
     }
   }
 }
@@ -136,7 +137,7 @@ input {
 .dropdown-menu{
   background: black;
   *:hover{
-    background: rgba(30, 30, 30, 0.8);
+    background: rgba($color: $notSoDark, $alpha: 0.8);
   }
   span{
     cursor: pointer;
@@ -184,10 +185,41 @@ input {
   }
 }
 
+.sidebar-active{
+  background-color: rgba($color: $notSoDark, $alpha: 0.95);
+  a{
+    color: rgba($color: white, $alpha: 0.8) !important;
+  }
+}
+
 .user-info{
-  background-color: rgba(30, 30, 30, 0.8);
+  background-color: rgba($color: $notSoDark, $alpha: 0.95);
   float: left;
   width: 85%;
   padding: 1rem;
   margin-top: 1rem;
+}
+
+.form-control{
+  border: 1px solid transparent;
+  color: white;
+  background-color: rgba($color: $betterGrey, $alpha: 1);
+  &:disabled{
+    color: rgba($color: white, $alpha: 0.6);
+    background-color: rgba($color: white, $alpha: 0.3);
+  }
+  &:focus{
+    color: white;
+    background-color: rgba($color: black, $alpha: 1.0);
+    border: 1px solid $secondary;
+    transition: all 0.2s;
+  }
+}
+
+span.user-name{
+  font-size: 18px;
+  text-transform: capitalize;
+  &:hover{
+    color: white;
+  }
 }

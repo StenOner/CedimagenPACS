@@ -22,19 +22,14 @@ export class AuthorizeGuardService implements CanActivate {
     state: RouterStateSnapshot):Promise<boolean>{
       const accessToken = localStorage.getItem(Environment.accessKey);
       const refreshToken = localStorage.getItem(Environment.refreshKey);
-      if (accessToken){
+      if (accessToken&&refreshToken){
         const isExpired = this._decypherToken.isTokenExpired(accessToken);
         if (isExpired){
-          if (refreshToken){
-            try{
-              const res = await this._authService.refreshToken(accessToken, refreshToken).toPromise();
-              localStorage.setItem(Environment.accessKey, res.accessToken);
-              return true;
-            }catch(err){
-              this.removeItems();
-              return false;
-            }
-          }else{
+          try{
+            const res = await this._authService.refreshToken(accessToken, refreshToken).toPromise();
+            localStorage.setItem(Environment.accessKey, res.accessToken);
+            return true;
+          }catch(err){
             this.removeItems();
             return false;
           }

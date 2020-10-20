@@ -43,7 +43,22 @@ export class UserService {
     const headers = new HttpHeaders().set('Content-Type','application/json')
                                       .set('Authorization',localStorage.getItem(Environment.accessKey));
 
-    return this._http.put(`${this.url}update-user`, body, {headers:headers});
+    return this._http.put(`${this.url}update-user/${user._id}`, body, {headers:headers});
+  }
+
+  updateProfile(user:User):Observable<any>{
+    const body = JSON.stringify(user);
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',localStorage.getItem(Environment.accessKey));
+
+    return this._http.put(`${this.url}update-profile`, body, {headers:headers});
+  }
+
+  updateEmail(_id:string, newEmail:string):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',localStorage.getItem(Environment.accessKey));
+
+    return this._http.put(`${this.url}update-email`, {_id, newEmail}, {headers:headers});
   }
 
   updatePassword(email:string, oldPassword:string, newPassword1:string, newPassword2:string):Observable<any>{

@@ -10,8 +10,6 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { GetUserComponent } from './components/get-user/get-user.component';
 import { GetUsersComponent } from './components/get-users/get-users.component';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
-import { UpdateEmailComponent } from './components/update-email/update-email.component';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import { Environment } from './environment/environment';
@@ -24,9 +22,9 @@ const appRoutes:Routes=[
     {path:'usuario/:id', component:GetUserComponent, canActivate:[RoleGuard], data:{expectedRole:Environment.admin}},
     {path:'usuarios', component:GetUsersComponent, canActivate:[RoleGuard], data:{expectedRole:Environment.admin}},
     {path:'actualizar-usuario/:id', component:UpdateUserComponent, canActivate:[RoleGuard], data:{expectedRole:Environment.admin}},
-    {path:'actualizar-correo', component:UpdateEmailComponent, canActivate:[AuthGuard]},
-    {path:'actualizar-clave', component:UpdatePasswordComponent, canActivate:[AuthGuard]},
     {path:'perfil', component:ProfileComponent, canActivate:[AuthGuard]},
+    {path:'actualizar-correo', component:ProfileComponent, canActivate:[AuthGuard]},
+    {path:'actualizar-clave', component:ProfileComponent, canActivate:[AuthGuard]},
     {path:'**', component:ErrorComponent}
 ];
 
