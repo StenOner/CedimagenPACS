@@ -12,7 +12,7 @@ export class RoleGuardService implements CanActivate {
 
   constructor(
     private _authService:AuthService,
-    private _decypherToken:DecypherTokenService,
+    private _decypherTokenService:DecypherTokenService,
     private router:Router
   ){
   }
@@ -22,33 +22,42 @@ export class RoleGuardService implements CanActivate {
     state: RouterStateSnapshot):Promise<boolean>{
       const accessToken = localStorage.getItem(Environment.accessKey);
       const refreshToken = localStorage.getItem(Environment.refreshKey);
-      const payload = this._decypherToken.decodeToken(accessToken);
+      const payload = this._decypherTokenService.decodeToken(accessToken);
       const expectedRole = route.data.expectedRole;
-      if (accessToken&&refreshToken){
-        const isExpired = this._decypherToken.isTokenExpired(accessToken);
+      if (!(accessToken&&refreshToken)){
+        this.redirect();
+        return false;
+      }else{        
+        const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
         if (isExpired){
           try{
             const res = await this._authService.refreshToken(accessToken, refreshToken).toPromise();
             localStorage.setItem(Environment.accessKey, res.accessToken);
-            if (payload.userTypeID===expectedRole) return true;
-            return false;
+            if (payload.userTypeID!==expectedRole) return false;
+            return true;
           }catch(err){
             this.removeItems();
             return false;
           }          
         }else{
-          if (payload.userTypeID===expectedRole) return true;
-          return false;
+          if (!this._decypherTokenService.decodeToken(accessToken).exp){
+            this.removeItems();
+            return false;
+          }
+          if (payload.userTypeID!==expectedRole) return false;
+          return true;
         }
-      }else{        
-        this.removeItems();
-        return false;
       }
   }
 
   removeItems(){
+    this._authService.logout(localStorage.getItem(Environment.refreshKey)).toPromise();
     localStorage.removeItem(Environment.accessKey);
     localStorage.removeItem(Environment.refreshKey);
-    this.router.navigate(['/inicio-sesion']);
+    this.redirect();
+  }
+
+  redirect(to:string = '/inicio-sesion'){
+    this.router.navigate([to]);
   }
 }

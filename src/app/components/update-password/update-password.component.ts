@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Environment } from 'src/app/environment/environment';
 import { User } from 'src/app/models/user';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
@@ -36,17 +35,14 @@ export class UpdatePasswordComponent implements OnInit {
       }else{
   
       }
-    }else{
-
     }
-
   }
 
   updatePassword(){
     this._userService.updatePassword(this.user.email, this.password, this.newPassword1, this.newPassword2).subscribe(
       res=>{ 
         if (res.message){
-
+          console.log(res.message);
         }
       },
       err=>{

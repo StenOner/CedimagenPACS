@@ -22,11 +22,12 @@ export class ProfileComponent implements OnInit {
     private _refreshTokenOnActionService:RefreshTokenOnActionService,
     private router:Router
   ){
-    this.route = router.url; 
+    this.route = '';
     this.user = new User();   
   }
 
   ngOnInit(): void {
+    this.route = this.router.url;
     this.getUser();
   }
 
@@ -47,9 +48,7 @@ export class ProfileComponent implements OnInit {
   async onSubmit(){
     if (await this._refreshTokenOnActionService.onAction()){
       this.updateProfile();
-    }else{
-
-    }    
+    }
   }
 
   updateProfile(){

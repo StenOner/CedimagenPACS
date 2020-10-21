@@ -15,6 +15,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { UpdateUserComponent } from './components/update-user/update-user.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateEmailComponent } from './components/update-email/update-email.component';
+import { TranslateUserStatePipe } from './pipes/translate-user-state.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { UpdateEmailComponent } from './components/update-email/update-email.com
     UpdatePasswordComponent,
     UpdateUserComponent,
     ProfileComponent,
-    UpdateEmailComponent
+    UpdateEmailComponent,
+    TranslateUserStatePipe
   ],
   imports: [
     BrowserModule,

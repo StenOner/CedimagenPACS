@@ -16,7 +16,7 @@ import { Environment } from './environment/environment';
 
 const appRoutes:Routes=[
     {path:'', component:HomeComponent, canActivate:[AuthGuard]},
-    {path:'hogar', component:HomeComponent, canActivate:[AuthGuard]},
+    {path:'hogar', redirectTo:'/', canActivate:[AuthGuard]},
     {path:'registro', component:NewUserComponent},
     {path:'inicio-sesion', component:AuthComponent},
     {path:'usuario/:id', component:GetUserComponent, canActivate:[RoleGuard], data:{expectedRole:Environment.admin}},

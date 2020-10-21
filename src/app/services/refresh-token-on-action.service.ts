@@ -20,7 +20,10 @@ export class RefreshTokenOnActionService {
   async onAction(){
     const accessToken = localStorage.getItem(Environment.accessKey);
     const refreshToken = localStorage.getItem(Environment.refreshKey);
-    if (accessToken&&refreshToken){
+    if (!(accessToken&&refreshToken)){
+      this.redirect();
+      return false;
+    }else{
       const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
       if (isExpired){
         try{
@@ -32,17 +35,23 @@ export class RefreshTokenOnActionService {
           return false;
         }
       }else{
+        if (!this._decypherTokenService.decodeToken(accessToken).exp){
+          this.removeItems();
+          return false;
+        }
         return true;
       }
-    }else{        
-      this.removeItems();
-      return false;
     }
   }
 
-  removeItems(){
+  private removeItems(){
+    this._authService.logout(localStorage.getItem(Environment.refreshKey)).toPromise();
     localStorage.removeItem(Environment.accessKey);
     localStorage.removeItem(Environment.refreshKey);
-    this.router.navigate(['/inicio-sesion']);
+    this.redirect();
+  }
+
+  private redirect(to:string = '/inicio-sesion'){
+    this.router.navigate([to]);
   }
 }

@@ -38,7 +38,7 @@ export class AppComponent implements OnInit,DoCheck {
   getUserName(){
     const token = localStorage.getItem(Environment.accessKey);
     const payload = this._decypherTokenService.decodeToken(token);
-    this.userName = payload.userName;
+    if (payload) this.userName = payload.userName;
   }
 
   ngDoCheck(){

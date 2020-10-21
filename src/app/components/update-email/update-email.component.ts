@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Environment } from 'src/app/environment/environment';
 import { User } from 'src/app/models/user';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
@@ -28,8 +27,6 @@ export class UpdateEmailComponent implements OnInit {
   async onSubmit(){
     if (await this._refreshTokenOnActionService.onAction()){
       this.updateEmail();
-    }else{
-
     }
   }
   
@@ -37,7 +34,7 @@ export class UpdateEmailComponent implements OnInit {
     this._userService.updateEmail(this.user._id, this.newEmail).subscribe(
       res=>{
         if (res.message){
-
+          console.log(res.message);
         }
       },
       err=>{
