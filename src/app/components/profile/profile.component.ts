@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Environment } from 'src/app/environment/environment';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [UserService, DecypherTokenService, RefreshTokenOnActionService]
+  providers: [UserService, DecypherTokenService, RefreshTokenOnActionService, AuthService]
 })
 export class ProfileComponent implements OnInit {
   public user:User;
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
     private _userService:UserService,
     private _decypherTokenService:DecypherTokenService,
     private _refreshTokenOnActionService:RefreshTokenOnActionService,
+    private _authService:AuthService,
     private router:Router
   ){
     this.route = '';

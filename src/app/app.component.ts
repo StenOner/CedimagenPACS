@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { Environment } from './environment/environment';
   styleUrls: ['./app.component.scss'],
   providers: [AuthService, UserService]
 })
-export class AppComponent implements OnInit,DoCheck {
+export class AppComponent implements DoCheck {
   public title:string;
   public userName:string;
   public route:string;
@@ -31,10 +31,6 @@ export class AppComponent implements OnInit,DoCheck {
     this.logout$ = null;
   }
 
-  ngOnInit(){
-    this.getUserName();
-  }
-
   getUserName(){
     const token = localStorage.getItem(Environment.accessKey);
     const payload = this._decypherTokenService.decodeToken(token);
@@ -43,10 +39,11 @@ export class AppComponent implements OnInit,DoCheck {
 
   ngDoCheck(){
     this.route = this.router.url;
+    this.getUserName();
   }
 
   logout(){
-    if (this.logout$ == null) this.logout$ = this._authService.logout(localStorage.getItem(Environment.refreshKey)).pipe(shareReplay(1));
+    if (this.logout$ == null) this.logout$ = this._authService.logout().pipe(shareReplay(1));
     this.logout$.subscribe(
       res=>{
         if (res.message){

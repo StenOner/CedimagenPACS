@@ -5,6 +5,6 @@ export const Environment={
     rememberMeKey:'CEDIMAGEN_PACS-rememberMe',
     rememberEmailKey:'CEDIMAGEN_PACS-rememberEmail',
     admin:'5f76b4f32c085422e8fe52e6',
-    doctor:'5f76b4f32c085422e8fe52e7',
-    user:'5f76b4f32c085422e8fe52e8'
+    doctor:'5f76b5102c085422e8fe52e7',
+    client:'5f76b5172c085422e8fe52e8'
 };

@@ -36,9 +36,10 @@ export class UpdateUserComponent implements OnInit {
     this.getUserTypes();
   }
 
-  onSubmit(){
-    this._refreshService.onAction();
-    this.updateUser();
+  async onSubmit(){
+    if (await this._refreshService.onAction()){
+      this.updateUser();
+    }    
   }
 
   updateUser(){

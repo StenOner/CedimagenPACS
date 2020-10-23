@@ -27,7 +27,7 @@ export class RefreshTokenOnActionService {
       const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
       if (isExpired){
         try{
-          const res = await this._authService.refreshToken(accessToken, refreshToken).toPromise();
+          const res = await this._authService.refreshToken().toPromise();
           localStorage.setItem(Environment.accessKey, res.accessToken);
           return true;
         }catch(err){
@@ -45,7 +45,7 @@ export class RefreshTokenOnActionService {
   }
 
   private removeItems(){
-    this._authService.logout(localStorage.getItem(Environment.refreshKey)).toPromise();
+    this._authService.logout().toPromise();
     localStorage.removeItem(Environment.accessKey);
     localStorage.removeItem(Environment.refreshKey);
     this.redirect();

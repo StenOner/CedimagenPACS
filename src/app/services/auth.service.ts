@@ -22,15 +22,18 @@ export class AuthService {
     return this._http.post(`${this.url}auth`, {email, password}, {headers:headers});
   }
 
-  refreshToken(accessToken:string, refreshToken:string):Observable<any>{
+  refreshToken():Observable<any>{
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const refreshToken = localStorage.getItem(Environment.refreshKey);
     const headers = new HttpHeaders().set('Content-Type','application/json');
     
-    return this._http.post(`${this.url}refresh-auth`, {accessToken, refreshToken}, {headers:headers});
+    return this._http.post(`${this.url}refresh-auth`, {accessToken:accessToken, refreshToken:refreshToken}, {headers:headers});
   }
 
-  logout(token:string):Observable<any>{
+  logout():Observable<any>{
+    const refreshToken = localStorage.getItem(Environment.refreshKey);
     const headers = new HttpHeaders().set('Content-Type','application/json');
     
-    return this._http.post(`${this.url}logout`, {token}, {headers:headers});
+    return this._http.post(`${this.url}logout`, {token:refreshToken}, {headers:headers});
   }
 }

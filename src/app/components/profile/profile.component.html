@@ -8,6 +8,9 @@
     <div class="sidebar-item" [class.sidebar-active]="route=='/actualizar-clave'">
         <a [routerLink]="['/actualizar-clave']">Cambiar contraseña</a>
     </div>
+    <div class="sidebar-item delete" [class.sidebar-active]="route=='/borrar-cuenta'">
+        <a [routerLink]="['/borrar-cuenta']">Borrar cuenta</a>
+    </div>
 </div>
 <div class="user-info" [ngSwitch]="route">
     <div *ngSwitchCase="'/perfil'">
@@ -41,5 +44,8 @@
     </div>
     <div *ngSwitchCase="'/actualizar-clave'">
         <app-update-password [user]="user"></app-update-password>
+    </div>
+    <div *ngSwitchCase="'/borrar-cuenta'">
+        <app-delete-user [user]="user"></app-delete-user>
     </div>
 </div>

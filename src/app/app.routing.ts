@@ -25,6 +25,7 @@ const appRoutes:Routes=[
     {path:'perfil', component:ProfileComponent, canActivate:[AuthGuard]},
     {path:'actualizar-correo', component:ProfileComponent, canActivate:[AuthGuard]},
     {path:'actualizar-clave', component:ProfileComponent, canActivate:[AuthGuard]},
+    {path:'borrar-cuenta', component:ProfileComponent, canActivate:[AuthGuard]},
     {path:'**', component:ErrorComponent}
 ];
 

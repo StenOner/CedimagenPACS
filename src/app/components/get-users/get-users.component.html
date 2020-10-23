@@ -8,6 +8,7 @@
                 <th>Nombre de Usuario</th>
                 <th>RUC</th>
                 <th>Fecha de creacion</th>
+                <th>Cuenta activa</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
                 <td>{{user.userName|titlecase}}</td>
                 <td>{{user.ruc}}</td>
                 <td>{{user.createdAt|date}}</td>
+                <td [style.color]="user.state?'#5cb85c':'#d9534f'">{{user.state|translateUserState}}</td>
                 <td>
                     <a class="action-link" [routerLink]="['/usuario', user._id]">
                         <i class="fas fa-eye"></i>
@@ -26,9 +28,9 @@
                     <a class="action-link" [routerLink]="['/actualizar-usuario', user._id]">
                         <i class="fas fa-pen"></i>
                     </a>
-                    <a class="action-link" [routerLink]="['/eliminar-usuario', user._id]">
+                    <span class="action-link" (click)="deleteUser(user)">
                         <i class="fas fa-trash-alt"></i>
-                    </a>
+                    </span>
                 </td>
             </tr>
         </tbody>

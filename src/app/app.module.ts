@@ -16,6 +16,13 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateEmailComponent } from './components/update-email/update-email.component';
 import { TranslateUserStatePipe } from './pipes/translate-user-state.pipe';
+import { DeleteUserComponent } from './components/delete-user/delete-user.component';
+import { NewTestComponent } from './components/new-test/new-test.component';
+import { GetTestComponent } from './components/get-test/get-test.component';
+import { GetTestsComponent } from './components/get-tests/get-tests.component';
+import { GetTestsAdminComponent } from './components/get-tests-admin/get-tests-admin.component';
+import { UpdateTestComponent } from './components/update-test/update-test.component';
+import { DeleteTestComponent } from './components/delete-test/delete-test.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,14 @@ import { TranslateUserStatePipe } from './pipes/translate-user-state.pipe';
     UpdateUserComponent,
     ProfileComponent,
     UpdateEmailComponent,
-    TranslateUserStatePipe
+    TranslateUserStatePipe,
+    DeleteUserComponent,
+    NewTestComponent,
+    GetTestComponent,
+    GetTestsComponent,
+    GetTestsAdminComponent,
+    UpdateTestComponent,
+    DeleteTestComponent
   ],
   imports: [
     BrowserModule,

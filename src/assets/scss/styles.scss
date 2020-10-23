@@ -159,6 +159,7 @@ input {
 
 .action-link{
   margin-right: 5px;
+  cursor: pointer;
   i{
     color: $primary;
   }
@@ -178,6 +179,12 @@ input {
     margin-top: 2rem;
     text-align: center;
     border-bottom: 1px solid rgba($color: white, $alpha: 0.7);
+    &.delete{
+      border-bottom: 1px solid rgba($color: red, $alpha: 0.7);
+      a{
+        color: red !important;
+      }
+    }
     a{
       color: white;
       text-transform: capitalize;

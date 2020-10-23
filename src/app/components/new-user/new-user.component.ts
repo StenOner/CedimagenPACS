@@ -42,7 +42,7 @@ export class NewUserComponent implements OnInit {
     let user = new User();
     user.email = this.email;
     user.password = this.password;
-    user.userTypeID = Environment.user;
+    user.userTypeID = Environment.client;
     if (this.user$==null) this.user$ = this._userService.newUser(user).pipe(shareReplay(1));
     this.user$.subscribe(
       res=>{
