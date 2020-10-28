@@ -11,53 +11,53 @@ import { Environment } from 'src/app/environment/environment';
 export class RoleGuardService implements CanActivate {
 
   constructor(
-    private _authService:AuthService,
-    private _decypherTokenService:DecypherTokenService,
-    private router:Router
-  ){
-  }
-  
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):Promise<boolean>{
-      const accessToken = localStorage.getItem(Environment.accessKey);
-      const refreshToken = localStorage.getItem(Environment.refreshKey);
-      const payload = this._decypherTokenService.decodeToken(accessToken);
-      const expectedRole = route.data.expectedRole;
-      if (!(accessToken&&refreshToken)){
-        this.redirect();
-        return false;
-      }else{        
-        const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
-        if (isExpired){
-          try{
-            const res = await this._authService.refreshToken().toPromise();
-            localStorage.setItem(Environment.accessKey, res.accessToken);
-            if (payload.userTypeID!==expectedRole) return false;
-            return true;
-          }catch(err){
-            this.removeItems();
-            return false;
-          }          
-        }else{
-          if (!this._decypherTokenService.decodeToken(accessToken).exp){
-            this.removeItems();
-            return false;
-          }
-          if (payload.userTypeID!==expectedRole) return false;
-          return true;
-        }
-      }
+    private _authService: AuthService,
+    private _decypherTokenService: DecypherTokenService,
+    private router: Router
+  ) {
   }
 
-  removeItems(){
+  async canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Promise<boolean> {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const refreshToken = localStorage.getItem(Environment.refreshKey);
+    const payload = this._decypherTokenService.decodeToken(accessToken);
+    const expectedRole = route.data.expectedRole;
+    if (!(accessToken && refreshToken)) {
+      this.redirect();
+      return false;
+    } else {
+      const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
+      if (isExpired) {
+        try {
+          const res = await this._authService.refreshToken().toPromise();
+          localStorage.setItem(Environment.accessKey, res.accessToken);
+          if (payload.userTypeID !== expectedRole) return false;
+          return true;
+        } catch (err) {
+          this.removeItems();
+          return false;
+        }
+      } else {
+        if (!this._decypherTokenService.decodeToken(accessToken).exp) {
+          this.removeItems();
+          return false;
+        }
+        if (payload.userTypeID !== expectedRole) return false;
+        return true;
+      }
+    }
+  }
+
+  removeItems() {
     this._authService.logout().toPromise();
     localStorage.removeItem(Environment.accessKey);
     localStorage.removeItem(Environment.refreshKey);
     this.redirect();
   }
 
-  redirect(to:string = '/inicio-sesion'){
+  redirect(to: string = '/inicio-sesion') {
     this.router.navigate([to]);
   }
 }

@@ -9,20 +9,20 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class TestService {
-  public url:string;
+  public url: string;
 
   constructor(
-    private _http:HttpClient
-  ){
+    private _http: HttpClient
+  ) {
     this.url = Environment.url;
   }
 
-  newTest(test:Test){
+  newTest(test: Test): Observable<any> {
     const body = JSON.stringify(test);
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
-    return this._http.post(`${this.url}new-test`, body, {headers:headers});
+    return this._http.post(`${this.url}new-test`, body, { headers: headers });
   }
 }

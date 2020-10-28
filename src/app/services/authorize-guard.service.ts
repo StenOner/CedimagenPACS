@@ -8,13 +8,13 @@ import { RefreshTokenOnActionService } from './refresh-token-on-action.service';
 export class AuthorizeGuardService implements CanActivate {
 
   constructor(
-    private _refreshTokenOnActionService:RefreshTokenOnActionService,
-  ){
+    private _refreshTokenOnActionService: RefreshTokenOnActionService,
+  ) {
   }
-  
+
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):Promise<boolean>{
-      return this._refreshTokenOnActionService.onAction();
+    state: RouterStateSnapshot): Promise<boolean> {
+    return this._refreshTokenOnActionService.onAction();
   }
 }

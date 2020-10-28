@@ -8,27 +8,27 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class TestTypeService {
-  public url:string;
+  public url: string;
 
   constructor(
-    private _http:HttpClient
-  ){
+    private _http: HttpClient
+  ) {
     this.url = Environment.url;
   }
 
-  getTestType(id:string):Observable<any>{
+  getTestType(id: string): Observable<any> {
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
-    return this._http.get(`${this.url}get-testType/${id}`, {headers:headers});
+    return this._http.get(`${this.url}get-testType/${id}`, { headers: headers });
   }
 
-  getTestTypes():Observable<any>{
+  getTestTypes(): Observable<any> {
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
-    return this._http.get(`${this.url}get-testTypes`, {headers:headers});
+    return this._http.get(`${this.url}get-testTypes`, { headers: headers });
   }
 }

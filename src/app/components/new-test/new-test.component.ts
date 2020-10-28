@@ -7,12 +7,14 @@ import { UploadFileService } from 'src/app/services/upload-file.service';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
+import { Environment } from 'src/app/environment/environment';
+import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 
 @Component({
   selector: 'app-new-test',
   templateUrl: './new-test.component.html',
   styleUrls: ['./new-test.component.scss'],
-  providers: [TestService, TestTypeService]
+  providers: [TestService, TestTypeService, UploadFileService, DecypherTokenService, RefreshTokenOnActionService]
 })
 export class NewTestComponent implements OnInit {
   public test: Test;
@@ -25,6 +27,7 @@ export class NewTestComponent implements OnInit {
     private _testService: TestService,
     private _testTypeService: TestTypeService,
     private _uploadFileService: UploadFileService,
+    private _decypherTokenService: DecypherTokenService,
     private _refreshService: RefreshTokenOnActionService
   ) {
     this.test = new Test();
@@ -41,6 +44,7 @@ export class NewTestComponent implements OnInit {
   async onSubmit() {
     if (await this._refreshService.onAction()) {
       if (this.fileToUpload != null) {
+        this.getUserID();
         this.newTest();
       }
     }
@@ -67,7 +71,7 @@ export class NewTestComponent implements OnInit {
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
-          console.log('archivo guardado exitosamente');
+          console.log('Archivo guardado exitosamente');
         }
       },
       err => {
@@ -75,6 +79,12 @@ export class NewTestComponent implements OnInit {
         console.log(err.error.message);
       }
     );
+  }
+
+  getUserID() {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const payload = this._decypherTokenService.decodeToken(accessToken);
+    if (payload) this.test.clientID = payload._id;
   }
 
   getTestTypes() {
@@ -91,6 +101,7 @@ export class NewTestComponent implements OnInit {
   }
 
   handleDateInput(name: string, date: string) {
+    // TODO: La fecha esta restando 1 dia, arreglar
     switch (name.toLowerCase()) {
       case 'testdate':
         this.test.patient.testDate = new Date(date);
@@ -99,7 +110,7 @@ export class NewTestComponent implements OnInit {
         this.test.patient.informDate = new Date(date);
         break;
       default:
-        console.log('No se reconoce el atributo.');
+        console.log('No se reconocio el atributo.');
         break;
     }
   }

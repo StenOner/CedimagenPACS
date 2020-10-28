@@ -5,21 +5,21 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class DecypherTokenService {
-  public jwtHelper:JwtHelperService;
+  public jwtHelper: JwtHelperService;
 
-  constructor(){
+  constructor() {
     this.jwtHelper = new JwtHelperService();
   }
 
-  isTokenExpired(token:string){
+  isTokenExpired(token: string) {
     return this.jwtHelper.isTokenExpired(token);
   }
 
-  decodeToken(token:string){
+  decodeToken(token: string) {
     return this.jwtHelper.decodeToken(token);
   }
 
-  expirationDate(token:string){
+  expirationDate(token: string) {
     return this.jwtHelper.getTokenExpirationDate(token);
   }
 }

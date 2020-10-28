@@ -8,27 +8,27 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class UserTypeService {
-  public url:string;
+  public url: string;
 
   constructor(
-    private _http:HttpClient
-  ){
+    private _http: HttpClient
+  ) {
     this.url = Environment.url;
   }
 
-  getUserType(id:string):Observable<any>{
+  getUserType(id: string): Observable<any> {
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
-    return this._http.get(`${this.url}get-userType/${id}`, {headers:headers});
+    return this._http.get(`${this.url}get-userType/${id}`, { headers: headers });
   }
 
-  getUserTypes():Observable<any>{
+  getUserTypes(): Observable<any> {
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
-    return this._http.get(`${this.url}get-userTypes`, {headers:headers});
+    return this._http.get(`${this.url}get-userTypes`, { headers: headers });
   }
 }

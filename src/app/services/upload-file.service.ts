@@ -7,21 +7,21 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class UploadFileService {
-  public url:string;
+  public url: string;
 
   constructor(
-    private _http:HttpClient
-  ){
+    private _http: HttpClient
+  ) {
     this.url = Environment.url;
   }
 
-  uploadFile(id:string, file:File){
+  uploadFile(id: string, file: File) {
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Authorization', accessToken);
 
     const formData = new FormData();
     formData.append('testFile', file, file.name);
 
-    return this._http.put(`${this.url}upload-file/${id}`, formData, {headers:headers});
+    return this._http.put(`${this.url}upload-file/${id}`, formData, { headers: headers });
   }
 }
