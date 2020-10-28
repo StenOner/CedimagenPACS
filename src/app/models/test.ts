@@ -1,16 +1,14 @@
+import { TestType } from "./test-type";
+import { User } from "./user";
+import { Patient } from "./patient";
+
 export class Test{
     constructor(
         public _id:String = '',
-        public clientID:String = '',
-        public testTypeID:String = '',
-        public patient:{} = {
-            "fullName":String,
-            "age":Number,
-            "testDate":Date,
-            "informDate":Date,
-            "remarks":String
-        },
-        public reviewevBy:String = '',
+        public clientID:String|User = '',
+        public testTypeID:String|TestType = '',
+        public patient:Patient = new Patient(),
+        public reviewevBy:String|User = '',
         public testFile:String = '',
         public createdAt:Date = new Date(),
         public state:Boolean = true

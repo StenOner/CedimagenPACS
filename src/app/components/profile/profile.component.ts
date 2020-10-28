@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Environment } from 'src/app/environment/environment';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth.service';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,21 +10,20 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [UserService, DecypherTokenService, RefreshTokenOnActionService, AuthService]
+  providers: [UserService, DecypherTokenService, RefreshTokenOnActionService]
 })
 export class ProfileComponent implements OnInit {
-  public user:User;
-  public route:string;
+  public user: User;
+  public route: string;
 
   constructor(
-    private _userService:UserService,
-    private _decypherTokenService:DecypherTokenService,
-    private _refreshTokenOnActionService:RefreshTokenOnActionService,
-    private _authService:AuthService,
-    private router:Router
-  ){
+    private _userService: UserService,
+    private _decypherTokenService: DecypherTokenService,
+    private _refreshTokenOnActionService: RefreshTokenOnActionService,
+    private router: Router
+  ) {
     this.route = '';
-    this.user = new User();   
+    this.user = new User();
   }
 
   ngOnInit(): void {
@@ -33,34 +31,34 @@ export class ProfileComponent implements OnInit {
     this.getUser();
   }
 
-  getUser(){
+  getUser() {
     const token = localStorage.getItem(Environment.accessKey);
     const payload = this._decypherTokenService.decodeToken(token);
     const id = payload._id;
     this._userService.getUser(id).subscribe(
-      res=>{
+      res => {
         if (res.user) this.user = res.user;
       },
-      err=>{
+      err => {
         console.log(err.error.message);
       }
     );
   }
 
-  async onSubmit(){
-    if (await this._refreshTokenOnActionService.onAction()){
+  async onSubmit() {
+    if (await this._refreshTokenOnActionService.onAction()) {
       this.updateProfile();
     }
   }
 
-  updateProfile(){
+  updateProfile() {
     this._userService.updateProfile(this.user).subscribe(
-      res=>{
-        if (res.message){
+      res => {
+        if (res.message) {
           console.log(res.message);
         }
       },
-      err=>{
+      err => {
         console.log(err.error.message);
       }
     );

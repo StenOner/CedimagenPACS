@@ -17,13 +17,17 @@ export class TestTypeService {
   }
 
   getTestType(id:string):Observable<any>{
-    const headers = new HttpHeaders().set('Content-Type','application/json');
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',accessToken);
 
     return this._http.get(`${this.url}get-testType/${id}`, {headers:headers});
   }
 
   getTestTypes():Observable<any>{
-    const headers = new HttpHeaders().set('Content-Type','application/json');
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',accessToken);
 
     return this._http.get(`${this.url}get-testTypes`, {headers:headers});
   }

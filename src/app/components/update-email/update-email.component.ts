@@ -10,13 +10,13 @@ import { UserService } from 'src/app/services/user.service';
   providers: [UserService, RefreshTokenOnActionService]
 })
 export class UpdateEmailComponent implements OnInit {
-  @Input() public user:User;
-  public newEmail:string;
+  @Input() public user: User;
+  public newEmail: string;
 
   constructor(
-    private _userService:UserService,
-    private _refreshTokenOnActionService:RefreshTokenOnActionService,
-  ){
+    private _userService: UserService,
+    private _refreshTokenOnActionService: RefreshTokenOnActionService,
+  ) {
     this.user = new User();
     this.newEmail = '';
   }
@@ -24,20 +24,20 @@ export class UpdateEmailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit(){
-    if (await this._refreshTokenOnActionService.onAction()){
+  async onSubmit() {
+    if (await this._refreshTokenOnActionService.onAction()) {
       this.updateEmail();
     }
   }
-  
-  updateEmail(){
+
+  updateEmail() {
     this._userService.updateEmail(this.user._id, this.newEmail).subscribe(
-      res=>{
-        if (res.message){
+      res => {
+        if (res.message) {
           console.log(res.message);
         }
       },
-      err=>{
+      err => {
         console.log(err.error.message);
       }
     );

@@ -1,14 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Test } from 'src/app/models/test';
-
 import { Environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TestService {
+export class UploadFileService {
   public url:string;
 
   constructor(
@@ -17,12 +15,13 @@ export class TestService {
     this.url = Environment.url;
   }
 
-  newTest(test:Test){
-    const body = JSON.stringify(test);
+  uploadFile(id:string, file:File){
     const accessToken = localStorage.getItem(Environment.accessKey);
-    const headers = new HttpHeaders().set('Content-Type','application/json')
-                                      .set('Authorization',accessToken);
+    const headers = new HttpHeaders().set('Authorization',accessToken);
 
-    return this._http.post(`${this.url}new-test`, body, {headers:headers});
+    const formData = new FormData();
+    formData.append('testFile', file, file.name);
+
+    return this._http.put(`${this.url}upload-file/${id}`, formData, {headers:headers});
   }
 }

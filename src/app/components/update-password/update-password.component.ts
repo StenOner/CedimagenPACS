@@ -10,15 +10,15 @@ import { UserService } from 'src/app/services/user.service';
   providers: [UserService, RefreshTokenOnActionService]
 })
 export class UpdatePasswordComponent implements OnInit {
-  @Input() public user:User;
-  public password:string;
-  public newPassword1:string;
-  public newPassword2:string;
+  @Input() public user: User;
+  public password: string;
+  public newPassword1: string;
+  public newPassword2: string;
 
   constructor(
-    private _userService:UserService,
-    private _refreshTokenOnActionService:RefreshTokenOnActionService
-  ){
+    private _userService: UserService,
+    private _refreshTokenOnActionService: RefreshTokenOnActionService
+  ) {
     this.user = new User();
     this.password = '';
     this.newPassword1 = '';
@@ -28,24 +28,24 @@ export class UpdatePasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit(){
-    if (await this._refreshTokenOnActionService.onAction()){
-      if (this.newPassword1===this.newPassword2){
+  async onSubmit() {
+    if (await this._refreshTokenOnActionService.onAction()) {
+      if (this.newPassword1 === this.newPassword2) {
         this.updatePassword();
-      }else{
-  
+      } else {
+
       }
     }
   }
 
-  updatePassword(){
+  updatePassword() {
     this._userService.updatePassword(this.user.email, this.password, this.newPassword1, this.newPassword2).subscribe(
-      res=>{ 
-        if (res.message){
+      res => {
+        if (res.message) {
           console.log(res.message);
         }
       },
-      err=>{
+      err => {
         console.log(err.error.message);
       }
     );

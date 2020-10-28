@@ -13,71 +13,71 @@ import { Environment } from 'src/app/environment/environment';
   providers: [AuthService]
 })
 export class AuthComponent implements OnInit {
-  public login$:Observable<any>;
-  public rememberMe:boolean;
-  public rememberEmail:string;
+  public login$: Observable<any>;
+  public rememberMe: boolean;
+  public rememberEmail: string;
 
   constructor(
-    private _authService:AuthService,
-    private router:Router
-  ){
+    private _authService: AuthService,
+    private router: Router
+  ) {
     this.login$ = null;
     this.rememberMe = false;
     this.rememberEmail = '';
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem(Environment.accessKey&&Environment.refreshKey)) this.router.navigate(['/hogar']);
+    if (localStorage.getItem(Environment.accessKey && Environment.refreshKey)) this.router.navigate(['/hogar']);
     this.getRemember();
   }
 
-  setRememberMe(){
+  setRememberMe() {
     localStorage.setItem(Environment.rememberMeKey, String(this.rememberMe));
     if (!this.rememberMe) this.removeRemember();
   }
 
-  setRememberEmail(){
+  setRememberEmail() {
     if (this.rememberMe) localStorage.setItem(Environment.rememberEmailKey, this.rememberEmail);
   }
 
-  setRemember(){
+  setRemember() {
     this.setRememberMe();
     this.setRememberEmail();
   }
 
-  getRemember(){
+  getRemember() {
     let rememberMe = localStorage.getItem(Environment.rememberMeKey);
     let rememberEmail = localStorage.getItem(Environment.rememberEmailKey);
-    if (rememberMe&&rememberEmail){
+    if (rememberMe && rememberEmail) {
       this.rememberMe = (rememberMe == 'true');
       this.rememberEmail = rememberEmail;
       document.getElementById('password').focus();
-    }else{
+    } else {
       this.removeRemember();
       document.getElementById('email').focus();
     }
   }
 
-  removeRemember(){
+  removeRemember() {
     localStorage.removeItem(Environment.rememberMeKey);
     localStorage.removeItem(Environment.rememberEmailKey);
   }
 
-  onSubmit(email:string, password:string){
+  onSubmit(email: string, password: string) {
     this.login(email, password);
   }
 
-  login(email:string, password:string){
-    if(this.login$ == null) this.login$ = this._authService.login(email, password).pipe(shareReplay(1));
+  login(email: string, password: string) {
+    if (this.login$ == null) this.login$ = this._authService.login(email, password).pipe(shareReplay(1));
     this.login$.subscribe(
-      res=>{
-        if (res.accessToken&&res.refreshToken){
+      res => {
+        if (res.accessToken && res.refreshToken) {
           localStorage.setItem(Environment.accessKey, res.accessToken);
           localStorage.setItem(Environment.refreshKey, res.refreshToken);
           this.router.navigate(['/hogar']);
         }
       },
-      err=>{
+      err => {
         console.log(err.error.message);
         this.login$ = null
       }

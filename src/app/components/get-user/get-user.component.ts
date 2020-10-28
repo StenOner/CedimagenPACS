@@ -10,17 +10,17 @@ import { UserService } from 'src/app/services/user.service';
   providers: [UserService]
 })
 export class GetUserComponent implements OnInit {
-  public user:User;
-  public id:string;
-  public userStates:Array<boolean>;
+  public user: User;
+  public id: string;
+  public userStates: boolean[];
 
   constructor(
-    private _userService:UserService,
-    private route:ActivatedRoute
-  ){
+    private _userService: UserService,
+    private route: ActivatedRoute
+  ) {
     this.user = new User();
     this.id = '';
-    this.userStates = [true,false];
+    this.userStates = [true, false];
   }
 
   ngOnInit(): void {
@@ -28,22 +28,22 @@ export class GetUserComponent implements OnInit {
     this.getUser();
   }
 
-  getParams(){
+  getParams() {
     this.route.params.subscribe(
-      params=>{
+      params => {
         this.id = params.id;
       }
     );
   }
 
-  getUser(){
+  getUser() {
     this._userService.getUser(this.id).subscribe(
-      res=>{
-        if (res.user){
+      res => {
+        if (res.user) {
           this.user = res.user;
         }
       },
-      err=>{
+      err => {
         console.log(err.error.message);
       }
     )

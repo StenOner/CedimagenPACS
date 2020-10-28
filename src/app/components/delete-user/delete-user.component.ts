@@ -15,16 +15,16 @@ import { UserService } from 'src/app/services/user.service';
   providers: [UserService, RefreshTokenOnActionService, AuthService]
 })
 export class DeleteUserComponent implements OnInit {
-  @Input() public user:User;
-  public password:string;
-  public deleteUser$:Observable<any>;
+  @Input() public user: User;
+  public password: string;
+  public deleteUser$: Observable<any>;
 
   constructor(
-    private _userService:UserService,
-    private _refreshService:RefreshTokenOnActionService,
-    private _authService:AuthService,
-    private router:Router
-  ){
+    private _userService: UserService,
+    private _refreshService: RefreshTokenOnActionService,
+    private _authService: AuthService,
+    private router: Router
+  ) {
     this.user = new User();
     this.password = '';
     this.deleteUser$ = null;
@@ -33,34 +33,34 @@ export class DeleteUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit(){
-    if (await this._refreshService.onAction()){
+  async onSubmit() {
+    if (await this._refreshService.onAction()) {
       this.deleteUser();
     }
   }
 
-  deleteUser(){
-    if (this.deleteUser$==null) this.deleteUser$ = this._userService.deleteUser(this.user.email, this.password).pipe(shareReplay(1));
+  deleteUser() {
+    if (this.deleteUser$ == null) this.deleteUser$ = this._userService.deleteUser(this.user.email, this.password).pipe(shareReplay(1));
     this.deleteUser$.subscribe(
-      async res=>{
-        if (res.user){
-          try{
+      async res => {
+        if (res.user) {
+          try {
             const logout = await this._authService.logout().toPromise();
             if (logout.message) this.clearStorage();
-          }catch(err){
+          } catch (err) {
             this.deleteUser$ = null;
             console.log(err.error.message);
           }
         }
       },
-      err=>{
+      err => {
         this.deleteUser$ = null;
         console.log(err.error.message);
       }
     )
   }
 
-  clearStorage(){
+  clearStorage() {
     localStorage.removeItem(Environment.accessKey);
     localStorage.removeItem(Environment.refreshKey);
     this.router.navigate(['/inicio-sesion']);

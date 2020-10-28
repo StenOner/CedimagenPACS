@@ -17,13 +17,17 @@ export class UserTypeService {
   }
 
   getUserType(id:string):Observable<any>{
-    const headers = new HttpHeaders().set('Content-Type','application/json');
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',accessToken);
 
     return this._http.get(`${this.url}get-userType/${id}`, {headers:headers});
   }
 
   getUserTypes():Observable<any>{
-    const headers = new HttpHeaders().set('Content-Type','application/json');
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type','application/json')
+                                      .set('Authorization',accessToken);
 
     return this._http.get(`${this.url}get-userTypes`, {headers:headers});
   }

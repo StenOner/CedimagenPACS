@@ -12,9 +12,9 @@ import { Environment } from 'src/app/environment/environment';
 export class HomeComponent implements OnInit {
 
   constructor(
-    private _authService:AuthService
-  ){
-    
+    private _authService: AuthService
+  ) {
+
   }
 
   ngOnInit(): void {

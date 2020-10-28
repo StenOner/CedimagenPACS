@@ -222,6 +222,7 @@ input {
   &:focus{
     color: white;
     background-color: rgba($color: black, $alpha: 1.0);
+    box-shadow: none !important;
     border: 1px solid $secondary;
     transition: all 0.2s;
   }

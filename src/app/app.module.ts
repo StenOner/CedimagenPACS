@@ -23,6 +23,7 @@ import { GetTestsComponent } from './components/get-tests/get-tests.component';
 import { GetTestsAdminComponent } from './components/get-tests-admin/get-tests-admin.component';
 import { UpdateTestComponent } from './components/update-test/update-test.component';
 import { DeleteTestComponent } from './components/delete-test/delete-test.component';
+import { NewUserAdminComponent } from './components/new-user-admin/new-user-admin.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DeleteTestComponent } from './components/delete-test/delete-test.compon
     GetTestsComponent,
     GetTestsAdminComponent,
     UpdateTestComponent,
-    DeleteTestComponent
+    DeleteTestComponent,
+    NewUserAdminComponent
   ],
   imports: [
     BrowserModule,

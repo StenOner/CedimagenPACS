@@ -2,8 +2,8 @@ import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
+import { User } from './models/user';
 import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
 import { DecypherTokenService } from './services/decypher-token.service';
 
 import { Environment } from './environment/environment';
@@ -12,13 +12,14 @@ import { Environment } from './environment/environment';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [AuthService, UserService]
+  providers: [AuthService, DecypherTokenService]
 })
 export class AppComponent implements DoCheck {
   public title:string;
-  public userName:string;
+  public user:User;
   public route:string;
   public logout$:Observable<any>;
+  public environment:any;
 
   constructor(
     private _authService:AuthService,
@@ -26,20 +27,26 @@ export class AppComponent implements DoCheck {
     private router:Router
   ){
     this.title = 'Cedimagenteleradiologia';
-    this.userName = '';
-    this.route = router.url;
+    this.user = new User();
+    this.route = '';
     this.logout$ = null;
-  }
-
-  getUserName(){
-    const token = localStorage.getItem(Environment.accessKey);
-    const payload = this._decypherTokenService.decodeToken(token);
-    if (payload) this.userName = payload.userName;
+    this.environment = Environment;
   }
 
   ngDoCheck(){
     this.route = this.router.url;
-    this.getUserName();
+    this.getUserFromToken();
+  }
+
+  getUserFromToken(){
+    const token = localStorage.getItem(Environment.accessKey);
+    const payload = this._decypherTokenService.decodeToken(token);
+    if (payload){
+      this.user._id = payload._id;
+      this.user.userTypeID = payload.userTypeID;
+      this.user.userName = payload.userName;
+      this.user.state = payload.state;
+    }
   }
 
   logout(){
