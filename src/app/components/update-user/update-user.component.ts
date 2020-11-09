@@ -46,7 +46,7 @@ export class UpdateUserComponent implements OnInit {
     this._userService.updateUser(this.user).subscribe(
       res => {
         if (res.user) {
-          console.log(res.user);
+          console.log('Usuario actualizado exitosamente.');
         }
       },
       err => {

@@ -3,23 +3,27 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Usuario</th>
                 <th>Tipo</th>
-                <th>Paciente</th>
+                <th colspan="2">Paciente</th>
                 <th>Fecha de creacion</th>
                 <th>Revisado por</th>
                 <th>Fecha de la revision</th>
                 <th>Archivo</th>
-                <th>Activo</th>
                 <th>Acciones</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Nombre Completo</th>
+                <th>Edad</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let test of tests;index as i">
+            <tr *ngFor="let test of myTests;index as i">
                 <td>{{i+1}}</td>
-                <td>{{$any(test.clientID).email}}</td>
                 <td>{{$any(test.testTypeID).type}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
+                <td>{{test.patient.age}}</td>
                 <td>{{test.createdAt|date}}</td>
                 <td *ngIf="test.reviewevBy">{{test.reviewevBy}}</td>
                 <td *ngIf="!test.reviewevBy">
@@ -38,17 +42,14 @@
                         <i class="fas fa-file-download"></i>
                     </a>
                 </td>
-                <td [style.color]="test.state?'#5cb85c':'#d9534f'">
-                    {{test.state|translateUserState}}
-                </td>
                 <td>
-                    <a class="action-link" [routerLink]="['/examen', test._id]">
+                    <a class="action-link" [routerLink]="['/mi-examen', test._id]">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a class="action-link" [routerLink]="['/actualizar-examen', test._id]">
+                    <a class="action-link" [routerLink]="['/actualizar-mi-examen', test._id]">
                         <i class="fas fa-pen"></i>
                     </a>
-                    <span class="action-link" (click)="deleteTest(test)">
+                    <span class="action-link" (click)="deleteMyTest(test._id)">
                         <i class="fas fa-trash-alt"></i>
                     </span>
                 </td>

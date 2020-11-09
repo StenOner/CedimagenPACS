@@ -7,19 +7,19 @@ import { UploadFileService } from 'src/app/services/upload-file.service';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
-import { Environment } from 'src/app/environment/environment';
-import { DecypherTokenService } from 'src/app/services/decypher-token.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-new-test',
-  templateUrl: './new-test.component.html',
-  styleUrls: ['./new-test.component.scss'],
-  providers: [TestService, TestTypeService, UploadFileService, DecypherTokenService, RefreshTokenOnActionService]
+  selector: 'app-update-my-test',
+  templateUrl: '../new-test/new-test.component.html',
+  styleUrls: ['./update-my-test.component.scss'],
+  providers: [TestService, TestTypeService, UploadFileService, RefreshTokenOnActionService]
 })
-export class NewTestComponent implements OnInit {
+export class UpdateMyTestComponent implements OnInit {
+  public id: string;
   public test: Test;
   public testTypes: TestType[];
-  public newTest$: Observable<any>;
+  public updateTest$: Observable<any>;
   public fileToUpload: File;
   public uploadFile$: Observable<any>;
 
@@ -27,40 +27,64 @@ export class NewTestComponent implements OnInit {
     private _testService: TestService,
     private _testTypeService: TestTypeService,
     private _uploadFileService: UploadFileService,
-    private _decypherTokenService: DecypherTokenService,
-    private _refreshService: RefreshTokenOnActionService
+    private _refreshService: RefreshTokenOnActionService,
+    private route: ActivatedRoute
   ) {
+    this.id = '';
     this.test = new Test();
     this.testTypes = new Array();
-    this.newTest$ = null;
+    this.updateTest$ = null;
     this.fileToUpload = null;
     this.uploadFile$ = null;
   }
 
   ngOnInit(): void {
+    this.getParams();
     this.getTestTypes();
+    this.getTest();
+  }
+
+  getParams() {
+    this.route.params.subscribe(
+      params => {
+        this.id = params.id
+      }
+    );
+  }
+
+  getTest() {
+    this._testService.getTest(this.id).subscribe(
+      res => {
+        if (res.test){
+          this.test = res.test;
+          this.test.testTypeID = res.test.testTypeID._id;
+        }
+      },
+      err => {
+        console.log(err.error.message);
+      }
+    );
   }
 
   async onSubmit() {
     if (await this._refreshService.onAction()) {
-      if (this.fileToUpload != null) {
-        this.getUserID();
-        this.newTest();
-      }
+      this.updateMyTest();
     }
   }
 
-  newTest() {
-    if (this.newTest$ == null) this.newTest$ = this._testService.newTest(this.test).pipe(shareReplay(1));
-    this.newTest$.subscribe(
+  updateMyTest() {
+    if (this.updateTest$ == null) this.updateTest$ = this._testService.updateMyTest(this.test).pipe(shareReplay(1));
+    this.updateTest$.subscribe(
       res => {
         if (res.test) {
-          console.log('Examen guardado con exito.');
-          this.uploadFile(res.test._id);
+          console.log('Examen actualizado con exito.');
+          if (this.fileToUpload != null) {
+            this.uploadFile(res.test._id);
+          }
         }
       },
       err => {
-        this.newTest$ = null;
+        this.updateTest$ = null;
         console.log(err.error.message);
       }
     );
@@ -71,7 +95,7 @@ export class NewTestComponent implements OnInit {
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
-          console.log('Archivo guardado exitosamente.');
+          console.log('Archivo actualizado exitosamente.');
         }
       },
       err => {
@@ -79,12 +103,6 @@ export class NewTestComponent implements OnInit {
         console.log(err.error.message);
       }
     );
-  }
-
-  getUserID() {
-    const accessToken = localStorage.getItem(Environment.accessKey);
-    const payload = this._decypherTokenService.decodeToken(accessToken);
-    if (payload) this.test.clientID = payload._id;
   }
 
   getTestTypes() {

@@ -25,7 +25,13 @@
         </a>
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
           <a class="dropdown-item" [routerLink]="['/nuevo-examen']">
-            Subir examen
+            Nuevo examen
+          </a>
+          <a class="dropdown-item" [routerLink]="['/examenes']" *ngIf="user.userTypeID==environment.admin">
+            (Admin) Examenes
+          </a>
+          <a class="dropdown-item" [routerLink]="['/doctor-examenes']" *ngIf="user.userTypeID==environment.doctor">
+            (Doctor) Revisar examenes
           </a>
           <a class="dropdown-item" [routerLink]="['/mis-examenes']">
             Mis examenes

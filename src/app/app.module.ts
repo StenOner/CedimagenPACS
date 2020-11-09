@@ -19,11 +19,13 @@ import { TranslateUserStatePipe } from './pipes/translate-user-state.pipe';
 import { DeleteUserComponent } from './components/delete-user/delete-user.component';
 import { NewTestComponent } from './components/new-test/new-test.component';
 import { GetTestComponent } from './components/get-test/get-test.component';
-import { GetTestsComponent } from './components/get-tests/get-tests.component';
 import { GetTestsAdminComponent } from './components/get-tests-admin/get-tests-admin.component';
 import { UpdateTestComponent } from './components/update-test/update-test.component';
 import { DeleteTestComponent } from './components/delete-test/delete-test.component';
 import { NewUserAdminComponent } from './components/new-user-admin/new-user-admin.component';
+import { GetMyTestsComponent } from './components/get-my-tests/get-my-tests.component';
+import { GetMyTestComponent } from './components/get-my-test/get-my-test.component';
+import { UpdateMyTestComponent } from './components/update-my-test/update-my-test.component';
 
 @NgModule({
   declarations: [
@@ -42,11 +44,13 @@ import { NewUserAdminComponent } from './components/new-user-admin/new-user-admi
     DeleteUserComponent,
     NewTestComponent,
     GetTestComponent,
-    GetTestsComponent,
     GetTestsAdminComponent,
     UpdateTestComponent,
     DeleteTestComponent,
-    NewUserAdminComponent
+    NewUserAdminComponent,
+    GetMyTestsComponent,
+    GetMyTestComponent,
+    UpdateMyTestComponent
   ],
   imports: [
     BrowserModule,

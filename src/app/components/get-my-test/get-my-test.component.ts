@@ -5,12 +5,12 @@ import { Test } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
 
 @Component({
-  selector: 'app-get-test',
-  templateUrl: './get-test.component.html',
-  styleUrls: ['./get-test.component.scss'],
+  selector: 'app-get-my-test',
+  templateUrl: './get-my-test.component.html',
+  styleUrls: ['./get-my-test.component.scss'],
   providers: [TestService]
 })
-export class GetTestComponent implements OnInit {
+export class GetMyTestComponent implements OnInit {
   public test: Test;
   public clientID: string;
   public url: string;
@@ -28,7 +28,7 @@ export class GetTestComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParams();
-    this.getTest();
+    this.getMyTest();
   }
 
   getParams() {
@@ -39,8 +39,8 @@ export class GetTestComponent implements OnInit {
     );
   }
 
-  getTest() {
-    this._testService.getTest(this.id).subscribe(
+  getMyTest() {
+    this._testService.getMyTest(this.id).subscribe(
       res => {
         if (res.test) {
           this.test = res.test;

@@ -20,7 +20,9 @@
                 <td>{{user.userName|titlecase}}</td>
                 <td>{{user.ruc}}</td>
                 <td>{{user.createdAt|date}}</td>
-                <td [style.color]="user.state?'#5cb85c':'#d9534f'">{{user.state|translateUserState}}</td>
+                <td [style.color]="user.state?'#5cb85c':'#d9534f'">
+                    {{user.state|translateUserState}}
+                </td>
                 <td>
                     <a class="action-link" [routerLink]="['/usuario', user._id]">
                         <i class="fas fa-eye"></i>

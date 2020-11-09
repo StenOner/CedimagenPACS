@@ -9,6 +9,7 @@ export class Test{
         public testTypeID:String|TestType = '',
         public patient:Patient = new Patient(),
         public reviewevBy:String|User = '',
+        public reviewDate:Date = new Date(),
         public testFile:String = '',
         public createdAt:Date = new Date(),
         public state:Boolean = true

@@ -1,13 +1,5 @@
 <div class="d-flex align-items-center flex-column w-100 pl-3">
     <div class="d-flex w-75 form-group flex-column">
-        <label>ID</label>
-        <input type="text" class="form-control" [value]="test._id" disabled>
-    </div>
-    <div class="d-flex w-75 form-group flex-column">
-        <label>Correo del usuario</label>
-        <input type="text" class="form-control" [value]="$any(test.clientID).email" disabled>
-    </div>
-    <div class="d-flex w-75 form-group flex-column">
         <label>Tipo</label>
         <input type="text" class="form-control" [value]="$any(test.testTypeID).type" disabled>
     </div>
@@ -47,9 +39,5 @@
                 <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate|date" disabled>
             </div>
         </div>
-    </div>
-    <div class="d-flex w-75 form-group flex-column">
-        <label>Archivo</label>
-        <input type="text" class="form-control" [value]="test.testFile" disabled>
     </div>
 </div>
