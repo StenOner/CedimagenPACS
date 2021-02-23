@@ -78,8 +78,8 @@ export class AuthComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
         this.login$ = null
+        alert(err.error.message);
       }
     );
   }

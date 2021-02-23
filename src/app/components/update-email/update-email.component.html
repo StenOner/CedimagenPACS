@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()">
+<form #emailForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="d-flex w-100">
         <div class="d-flex flex-column w-50">
             <div class="form-group">
@@ -7,10 +7,15 @@
             </div>
             <div class="form-group">
                 <label for="newEmail">Nuevo Correo</label>
-                <input type="text" class="form-control" name="newEmail" [(ngModel)]="newEmail" placeholder="nuevo_correo@gmail.com" required>
+                <input type="text" class="form-control" name="newEmail" #email="ngModel" [(ngModel)]="newEmail" placeholder="nuevo_correo@gmail.com" required>
+                <div class="form_error" *ngIf="email.invalid&&(email.touched||email.dirty)">
+                    <span *ngIf="email.errors.required">
+                        El nuevo correo no puede estar vacio.
+                    </span>
+                </div>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar">
+                <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="emailForm.invalid">
             </div>
         </div>
         <div class="d-flex justify-content-center align-items-center w-50">

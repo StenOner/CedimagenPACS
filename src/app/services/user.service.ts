@@ -19,7 +19,9 @@ export class UserService {
 
   newUser(user: User): Observable<any> {
     const body = JSON.stringify(user);
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
 
     return this._http.post(`${this.url}new-user`, body, { headers: headers });
   }

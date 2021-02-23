@@ -44,9 +44,9 @@ export class GetUserComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
-    )
+    );
   }
 
 }

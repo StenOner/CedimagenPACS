@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/user-type';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.scss'],
-  providers: [UserService, UserTypeService]
+  providers: [UserService, UserTypeService, RefreshTokenOnActionService]
 })
 export class UpdateUserComponent implements OnInit {
   public id: string;
@@ -22,7 +22,8 @@ export class UpdateUserComponent implements OnInit {
     private _userService: UserService,
     private _userTypeService: UserTypeService,
     private _refreshService: RefreshTokenOnActionService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private router: Router
   ) {
     this.id = '';
     this.user = new User();
@@ -46,11 +47,12 @@ export class UpdateUserComponent implements OnInit {
     this._userService.updateUser(this.user).subscribe(
       res => {
         if (res.user) {
-          console.log('Usuario actualizado exitosamente.');
+          alert('Usuario actualizado exitosamente.');
+          this.router.navigate(['/usuarios']);
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -71,7 +73,7 @@ export class UpdateUserComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -84,7 +86,7 @@ export class UpdateUserComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }

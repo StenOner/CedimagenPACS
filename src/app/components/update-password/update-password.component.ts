@@ -33,7 +33,7 @@ export class UpdatePasswordComponent implements OnInit {
       if (this.newPassword1 === this.newPassword2) {
         this.updatePassword();
       } else {
-
+        alert('Las contraseñas deben de coincidir.');
       }
     }
   }
@@ -42,11 +42,11 @@ export class UpdatePasswordComponent implements OnInit {
     this._userService.updatePassword(this.user.email, this.password, this.newPassword1, this.newPassword2).subscribe(
       res => {
         if (res.message) {
-          console.log(res.message);
+          alert('La contraseña se actualizo correctamente.');
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }

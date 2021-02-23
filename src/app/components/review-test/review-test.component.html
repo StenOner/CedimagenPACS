@@ -1,0 +1,60 @@
+<form #reviewForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="d-flex align-items-center flex-column w-100 pl-3">
+        <div class="d-flex w-75 form-group flex-column">
+            <label>Tipo</label>
+            <input type="text" class="form-control" [value]="$any(test.testTypeID).type" disabled>
+        </div>
+        <h4>Paciente</h4>
+        <div class="d-flex w-75 form-group flex-row">
+            <div class="d-flex w-75 form-group flex-column">
+                <label>Nombre Completo</label>
+                <input type="text" class="form-control" [value]="test.patient.fullName" disabled>
+            </div>
+            <div class="d-flex w-25 form-group flex-column">
+                <label>Edad</label>
+                <input type="text" class="form-control" [value]="test.patient.age" disabled>
+            </div>
+        </div>
+        <div class="d-flex w-75 form-group flex-row">
+            <div class="d-flex w-75 form-group flex-column">
+                <label>Fecha del Examen</label>
+                <input type="text" class="form-control" [value]="test.patient.testDate|date" disabled>
+            </div>
+            <div class="d-flex w-75 form-group flex-column">
+                <label>Fecha del Informe</label>
+                <input type="text" class="form-control" [value]="test.patient.informDate|date" disabled>
+            </div>
+        </div>
+        <div class="d-flex w-75 form-group flex-column">
+            <label>Observaciones</label>
+            <textarea class="form-control" disabled>{{test.patient.remarks}}</textarea>
+        </div>
+        <div class="d-flex w-75 form-group flex-column">
+            <label>Archivo</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [value]="test.testFile" disabled>
+                <div class="input-group-append">
+                    <a class="input-group-text" target="blank" href="{{url}}download/{{test._id}}-{{test.testFile}}">
+                        <i class="fas fa-file-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr [style.width]="'75%'">
+        <div class="d-flex w-75 form-group flex-column">
+            <h3>Subir Respuesta</h3>
+            <div class="flex w-100">
+                <textarea class="form-control" name="response" rows="10" #response="ngModel" [(ngModel)]="reviewResponse" placeholder="Escriba los resultados del paciente" required></textarea>
+                <div class="form_error" *ngIf="response.invalid&&(response.touched||response.dirty)">
+                    <span *ngIf="response.errors.required">
+                        La respuesta no puede estar vacia.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="flex w-75">
+            <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="reviewForm.invalid">
+        </div>
+        <br>
+    </div>
+</form>

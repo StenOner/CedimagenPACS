@@ -5,27 +5,28 @@
                 <th>#</th>
                 <th>Usuario</th>
                 <th>Tipo</th>
-                <th>Paciente</th>
+                <th colspan="3">Paciente</th>
                 <th>Fecha de creacion</th>
-                <th>Archivo</th>
                 <th>Revisado por</th>
                 <th>Fecha de la revision</th>
-                <th>Activo</th>
-                <th>Acciones</th>
+                <th>Revisar</th>
+            </tr>
+            <tr>
+                <th colspan="3"></th>
+                <th>DNI</th>
+                <th>Nombre Completo</th>
+                <th>Edad</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let test of tests;index as i">
                 <td>{{i+1}}</td>
-                <td>{{$any(test.clientID).email}}</td>
+                <td>{{$any(test.clientID).userName}}</td>
                 <td>{{$any(test.testTypeID).type}}</td>
+                <td>{{test.patient.dni}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
+                <td>{{test.patient.age}}</td>
                 <td>{{test.createdAt|date}}</td>
-                <td>
-                    <a class="action-link" target="blank" href="{{url}}download/{{test._id}}-{{test.testFile}}">
-                        <i class="fas fa-file-download"></i>
-                    </a>
-                </td>
                 <td *ngIf="test.reviewedBy">
                     {{$any(test.reviewedBy).userName}}
                 </td>
@@ -34,25 +35,25 @@
                         En espera
                     </span>
                 </td>
-                <td *ngIf="test.reviewDate">{{test.reviewDate|date}}</td>
+                <td *ngIf="test.reviewDate">
+                    {{test.reviewDate|date}}
+                </td>
                 <td *ngIf="!test.reviewDate">
                     <span class="btn-small btn-danger">
                         En espera
                     </span>
                 </td>
-                <td [style.color]="test.state?'#5cb85c':'#d9534f'">
-                    {{test.state|translateUserState}}
-                </td>
                 <td>
-                    <a class="action-link" [routerLink]="['/examen', test._id]">
+                    <a class="action-link" *ngIf="!test.reviewedBy" [routerLink]="['/revisar-examen', test._id]" 
+                    (click)="openReview(test._id)">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a class="action-link" [routerLink]="['/actualizar-examen', test._id]">
-                        <i class="fas fa-pen"></i>
+                    <a class="action-link" *ngIf="test.reviewedBy&&$any(test.reviewedBy)._id===userID" [routerLink]="['/revisar-examen', test._id]" >
+                        <i class="fas fa-eye"></i>
                     </a>
-                    <span class="action-link" (click)="deleteTest(test)">
-                        <i class="fas fa-trash-alt"></i>
-                    </span>
+                    <a class="action-link-disabled" *ngIf="test.reviewedBy&&$any(test.reviewedBy)._id!==userID" onclick="return false;">
+                        <i class="fas fa-eye-slash"></i>
+                    </a>
                 </td>
             </tr>
         </tbody>

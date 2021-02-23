@@ -40,16 +40,44 @@
         <div class="d-flex w-100">                
             <div class="d-flex w-50 flex-column form-group">
                 <label for="testDate">Revisado por</label>
-                <input type="text" class="form-control" name="testDate" [value]="test.reviewevBy" disabled>
+                <input type="text" class="form-control" name="testDate" [value]="test.reviewedBy ? $any(test.reviewedBy).userName : 'EN ESPERA'" disabled>
             </div>
             <div class="d-flex w-50 flex-column form-group">
                 <label for="reviewDate">Fecha de la revision</label>
-                <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate|date" disabled>
+                <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate ? (test.reviewDate|date) : 'EN ESPERA'" disabled>
             </div>
         </div>
     </div>
     <div class="d-flex w-75 form-group flex-column">
         <label>Archivo</label>
-        <input type="text" class="form-control" [value]="test.testFile" disabled>
+        <div class="input-group">
+            <input type="text" class="form-control" [value]="test.testFile" disabled>
+            <div class="input-group-append">
+                <a class="input-group-text" target="blank" href="{{url}}download/{{test._id}}-{{test.testFile}}">
+                    <i class="fas fa-file-download"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr [style.width]="'75%'">
+    <div class="d-flex w-75 form-group flex-column">
+        <h3>Respuesta</h3>
+        <span *ngIf="!test.responseFile">
+            <strong>En espera</strong>
+        </span>
+        <div class="d-flex flex-column align-items-center file-preview" *ngIf="test.responseFile" (click)="redirectDownload()">
+            <img *ngIf="test.responseFile.substring(test.responseFile.lastIndexOf('.'), test.responseFile.length).includes('pdf')"
+            class="" src="../../../assets/icon/pdf.png" alt="preview-pdf">
+            <img *ngIf="test.responseFile.substring(test.responseFile.lastIndexOf('.'), test.responseFile.length).includes('doc')"
+            src="../../../assets/icon/word.png" alt="preview-word">
+            <img *ngIf="!test.responseFile.substring(test.responseFile.lastIndexOf('.'), test.responseFile.length).includes('pdf')&&!test.responseFile.substring(test.responseFile.lastIndexOf('.'), test.responseFile.length).includes('doc')"
+            src="../../../assets/icon/download.png" alt="preview-other">
+            <div class="flex flex-row download-body">
+                <span>
+                    {{test.responseFile}}
+                    <i class="fas fa-download"></i>
+                </span>
+            </div>
+        </div>
     </div>
 </div>

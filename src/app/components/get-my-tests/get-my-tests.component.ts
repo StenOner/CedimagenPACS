@@ -39,7 +39,7 @@ export class GetMyTestsComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -57,14 +57,14 @@ export class GetMyTestsComponent implements OnInit {
         this._testService.deleteTest(id).subscribe(
           res => {
             if (res.test) {
-              console.log('Examen eliminado exitosamente.');
               this.myTests = this.myTests.filter(
                 test => test._id !== id
               );
+              alert('Examen eliminado exitosamente.');
             }
           },
           err => {
-            console.log(err.error.message);
+            alert(err.error.message);
           }
         );
       }

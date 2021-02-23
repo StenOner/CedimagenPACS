@@ -34,11 +34,11 @@ export class UpdateEmailComponent implements OnInit {
     this._userService.updateEmail(this.user._id, this.newEmail).subscribe(
       res => {
         if (res.message) {
-          console.log(res.message);
+          alert('El correo ha sido actualizado correctamente.');
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }

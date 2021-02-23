@@ -1,11 +1,5 @@
 <div class="d-flex w-100 pl-3">
     <div class="d-flex w-50 flex-column">
-        <!--
-        <div class="form-group flex-column">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" name="id" [value]="user._id" disabled>
-        </div>
-        -->
         <div class="form-group flex-column">
             <label for="userTypeID">Tipo de Cuenta</label>
             <input type="text" class="form-control" name="userTypeID" [value]="$any(user.userTypeID).type|titlecase" disabled>
@@ -21,8 +15,8 @@
     </div>
     <div class="d-flex w-50 flex-column">
         <div class="form-group flex-column">
-            <label for="ruc">RUC</label>
-            <input type="text" class="form-control" name="ruc" [(ngModel)]="user.ruc" disabled>
+            <label for="dni">DNI</label>
+            <input type="text" class="form-control" name="dni" [(ngModel)]="user.dni" disabled>
         </div>
         <div class="form-group flex-column">
             <label for="createdAt">Fecha de Creacion</label>

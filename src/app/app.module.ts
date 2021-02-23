@@ -21,11 +21,13 @@ import { NewTestComponent } from './components/new-test/new-test.component';
 import { GetTestComponent } from './components/get-test/get-test.component';
 import { GetTestsAdminComponent } from './components/get-tests-admin/get-tests-admin.component';
 import { UpdateTestComponent } from './components/update-test/update-test.component';
-import { DeleteTestComponent } from './components/delete-test/delete-test.component';
 import { NewUserAdminComponent } from './components/new-user-admin/new-user-admin.component';
 import { GetMyTestsComponent } from './components/get-my-tests/get-my-tests.component';
 import { GetMyTestComponent } from './components/get-my-test/get-my-test.component';
 import { UpdateMyTestComponent } from './components/update-my-test/update-my-test.component';
+import { ReviewTestComponent } from './components/review-test/review-test.component';
+import { GetTestsDoctorComponent } from './components/get-tests-doctor/get-tests-doctor.component';
+import { DownloadComponent } from './components/download/download.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +48,13 @@ import { UpdateMyTestComponent } from './components/update-my-test/update-my-tes
     GetTestComponent,
     GetTestsAdminComponent,
     UpdateTestComponent,
-    DeleteTestComponent,
     NewUserAdminComponent,
     GetMyTestsComponent,
     GetMyTestComponent,
-    UpdateMyTestComponent
+    UpdateMyTestComponent,
+    ReviewTestComponent,
+    GetTestsDoctorComponent,
+    DownloadComponent
   ],
   imports: [
     BrowserModule,

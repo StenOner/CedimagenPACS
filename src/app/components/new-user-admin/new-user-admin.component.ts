@@ -11,7 +11,8 @@ import { shareReplay } from 'rxjs/operators';
 @Component({
   selector: 'app-new-user-admin',
   templateUrl: './new-user-admin.component.html',
-  styleUrls: ['./new-user-admin.component.scss']
+  styleUrls: ['./new-user-admin.component.scss'],
+  providers: [UserService, UserTypeService, RefreshTokenOnActionService]
 })
 export class NewUserAdminComponent implements OnInit {
   public user: User;
@@ -46,12 +47,13 @@ export class NewUserAdminComponent implements OnInit {
     this.user$.subscribe(
       res => {
         if (res.message) {
+          alert('Usuario creado con exito.');
           this.router.navigate(['/usuarios']);
         }
       },
       err => {
         this.user$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -64,7 +66,7 @@ export class NewUserAdminComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }

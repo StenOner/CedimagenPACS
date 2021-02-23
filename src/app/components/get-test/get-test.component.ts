@@ -12,7 +12,6 @@ import { TestService } from 'src/app/services/test.service';
 })
 export class GetTestComponent implements OnInit {
   public test: Test;
-  public clientID: string;
   public url: string;
   public id: string;
 
@@ -21,7 +20,6 @@ export class GetTestComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.test = new Test();
-    this.clientID = '';
     this.url = Environment.url;
     this.id = '';
   }
@@ -47,9 +45,13 @@ export class GetTestComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
+  }
+
+  redirectDownload() {
+    window.open(`${this.url}download/${this.test._id}-${this.test.responseFile}`, 'blank')
   }
 
 }

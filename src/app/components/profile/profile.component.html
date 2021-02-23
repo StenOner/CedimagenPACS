@@ -14,23 +14,43 @@
 </div>
 <div class="user-info" [ngSwitch]="route">
     <div *ngSwitchCase="'/perfil'">
-        <form (ngSubmit)="onSubmit()">
+        <form #profileForm="ngForm" (ngSubmit)="onSubmit()">
             <div class="d-flex w-100">
                 <div class="d-flex flex-column w-50">
                     <div class="form-group">
                         <label for="email">Correo</label>
-                        <input type="email" class="form-control" name="email" [(ngModel)]="user.email" placeholder="Correo" disabled>
+                        <input type="email" class="form-control" name="email" #email="ngModel" [(ngModel)]="user.email" placeholder="Correo" disabled>
                     </div>
                     <div class="form-group">
                         <label for="userName">Nombre de Usuario</label>
-                        <input type="text" class="form-control" name="userName" [(ngModel)]="user.userName" placeholder="Nombre de Usuario">
+                        <input type="text" class="form-control" name="userName" #userName="ngModel" [(ngModel)]="user.userName" placeholder="Nombre de Usuario" required>
+                        <div class="form_error" *ngIf="userName.invalid&&(userName.touched||userName.dirty)">
+                            <span *ngIf="userName.errors.required">
+                                El nombre de usuario no puede estar vacio.
+                            </span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="ruc">RUC</label>
-                        <input type="text" class="form-control" name="ruc" [(ngModel)]="user.ruc" placeholder="RUC">
+                        <label for="dni">DNI</label>
+                        <input type="text" class="form-control" name="dni" minlength="8" maxlength="8" #dni="ngModel" [(ngModel)]="user.dni" placeholder="DNI" required>
+                        <div class="form_error" *ngIf="dni.invalid&&(dni.touched||dni.dirty)">
+                            <span *ngIf="dni.errors.required">
+                                El DNI no puede estar vacio.
+                            </span>
+                            <span *ngIf="dni.errors.minlength">
+                                El DNI no puede tener menos de 8 digitos.
+                            </span>
+                            <span *ngIf="dni.errors.maxlength">
+                                El DNI no puede tener mas de 8 digitos.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="$any(user.userTypeID)._id===typeDoctor">
+                        <input type="file" class="btn btn-outline-primary" name="sign" (change)="handleFileInput($event.target.files)">
+                        <small *ngIf="user.sign">Archivo actual: {{user.sign}}</small>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar">
+                        <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="profileForm.invalid">
                     </div>
                 </div>
                 <div class="d-flex justify-content-center align-items-center w-50">

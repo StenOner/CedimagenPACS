@@ -58,6 +58,31 @@ export class TestService {
     return this._http.get(`${this.url}get-my-tests/${id}`, { headers: headers });
   }
 
+  getReviewableTest(id: string): Observable<any> {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
+
+    return this._http.get(`${this.url}get-reviewable-test/${id}`, { headers: headers });
+  }
+
+  openReview(id: string): Observable<any> {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
+
+    return this._http.put(`${this.url}open-review/${id}`, null, { headers: headers });
+  }
+
+  saveReview(test: Test, review: string): Observable<any> {
+    const body = JSON.stringify(Object.assign({}, test, {review}));
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
+    
+    return this._http.put(`${this.url}save-review`, body, { headers: headers });
+  }
+
   updateTest(test: Test): Observable<any> {
     const body = JSON.stringify(test);
     const accessToken = localStorage.getItem(Environment.accessKey);

@@ -9,6 +9,7 @@ import { shareReplay } from 'rxjs/operators';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { Environment } from 'src/app/environment/environment';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-test',
@@ -28,7 +29,8 @@ export class NewTestComponent implements OnInit {
     private _testTypeService: TestTypeService,
     private _uploadFileService: UploadFileService,
     private _decypherTokenService: DecypherTokenService,
-    private _refreshService: RefreshTokenOnActionService
+    private _refreshService: RefreshTokenOnActionService,
+    private router: Router
   ) {
     this.test = new Test();
     this.testTypes = new Array();
@@ -46,6 +48,8 @@ export class NewTestComponent implements OnInit {
       if (this.fileToUpload != null) {
         this.getUserID();
         this.newTest();
+      } else {
+        alert('Debe de seleccionar un archivo a subir.');        
       }
     }
   }
@@ -55,28 +59,28 @@ export class NewTestComponent implements OnInit {
     this.newTest$.subscribe(
       res => {
         if (res.test) {
-          console.log('Examen guardado con exito.');
           this.uploadFile(res.test._id);
         }
       },
       err => {
         this.newTest$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
 
   uploadFile(testID?: string) {
-    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadFile(testID, this.fileToUpload).pipe(shareReplay(1));
+    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadSign(testID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
-          console.log('Archivo guardado exitosamente.');
+          alert('Examen guardado exitosamente.');
+          this.router.navigate(['/mis-examenes']);
         }
       },
       err => {
         this.uploadFile$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -95,7 +99,7 @@ export class NewTestComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     )
   }

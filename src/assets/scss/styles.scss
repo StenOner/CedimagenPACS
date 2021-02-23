@@ -63,10 +63,10 @@ body {
   }
 }
 
-.input-group-prepend {
+.input-group-prepend, .input-group-append {
   margin: 0;
   max-width: 38px;
-  span{
+  span, a{
     width: 100%;
     background-color: $secondary;
     color: black;
@@ -243,4 +243,50 @@ span.user-name{
   line-height: 1.5;
   text-align: center;
   vertical-align: middle;
+}
+
+.action-link-disabled{
+  margin-right: 5px;
+  cursor: not-allowed;
+  i{
+    color: $betterGrey;
+  }
+}
+
+hr{
+  border-top: 1px solid rgba($color: white, $alpha: 0.7) !important;
+}
+
+.file-preview{
+  width: 256px;
+  border: 1px dashed rgba($color: $primary, $alpha: 0.8);
+  cursor: pointer;
+  img{
+    margin: 1rem;
+    width: 96px;
+  }
+  .download-body{
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: $betterGrey, $alpha: 0.7);
+    padding: 0.3rem;
+    text-align: center;
+  }
+}
+
+form input[disabled]{
+  opacity: 0.4;
+  border-color: $betterGrey !important;
+	cursor: not-allowed;
+}
+
+.form-error{
+  border: 1px solid red !important;
+}
+
+div.form_error span{
+  font-size: 12px;
+	padding: 3px;
+	color:red;
+	margin-left: 5px;
 }

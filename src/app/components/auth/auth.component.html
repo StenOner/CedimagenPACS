@@ -14,7 +14,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="email" class="form-control" id="email" name="correo" #email placeholder="correo@gmail.com" [(ngModel)]="rememberEmail" (keyup)="setRememberEmail()" autocomplete="off" required>                        
+                    <input type="email" class="form-control" id="email" name="correo" #email="ngModel" placeholder="correo@gmail.com" [(ngModel)]="rememberEmail" (keyup)="setRememberEmail()"
+                     autocomplete="off" [ngClass]="email.invalid&&(email.touched||email.dirty)?'form-error':''" required>
                 </div>
                 <div class="input-group form-group">
                     <div class="input-group-prepend">
@@ -31,9 +32,9 @@
             </form>
         </div>
         <div class="card-footer">
-            <div class="d-flex justify-content-center links">
+            <!-- <div class="d-flex justify-content-center links">
                 No tienes una cuenta?<a class="custom-link" [routerLink]="['/registro']">Registrarse</a>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-center">
                 <a class="custom-link" href="#">Olvidaste tu contraseña?</a>
             </div>

@@ -49,13 +49,13 @@ export class DeleteUserComponent implements OnInit {
             if (logout.message) this.clearStorage();
           } catch (err) {
             this.deleteUser$ = null;
-            console.log(err.error.message);
+            alert(err.error.message);
           }
         }
       },
       err => {
         this.deleteUser$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     )
   }

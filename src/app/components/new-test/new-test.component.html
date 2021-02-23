@@ -1,28 +1,54 @@
-<form (ngSubmit)="onSubmit()">
+<form #testForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="d-flex w-100 pl-3 flex-column align-items-center">
         <div class="d-flex w-75 form-group flex-column">
             <label for="testTypeID">Tipo de Examen</label>
-            <select class="form-control" name="testTypeID" [(ngModel)]="test.testTypeID" required>
-                <option [value]="" selected>Seleccione un tipo de cuenta</option>
+            <select class="form-control" name="testTypeID" #testTypeID="ngModel" [(ngModel)]="test.testTypeID" required>
+                <option value="" selected>Seleccione un tipo de cuenta</option>
                 <option *ngFor="let testType of testTypes" [value]="testType._id">{{testType.type|titlecase}}</option>
             </select>
+            <div class="form_error" *ngIf="testTypeID.invalid&&(testTypeID.touched||testTypeID.dirty)">
+                <span *ngIf="testTypeID.errors.required">
+                    El campo de tipo no puede estar vacio.
+                </span>
+            </div>
         </div>
         <h4>Paciente</h4>
         <div class="d-flex w-75 flex-column">
             <div class="d-flex w-100">
                 <div class="d-flex w-75 flex-column form-group">
                     <label for="fullName">Nombre completo</label>
-                    <input type="text" class="form-control" name="fullName" [(ngModel)]="test.patient.fullName" placeholder="Nombre completo" required>
+                    <input type="text" class="form-control" name="fullName" #fullName="ngModel" [(ngModel)]="test.patient.fullName" placeholder="Nombre completo" required>
+                    <div class="form_error" *ngIf="fullName.invalid&&(fullName.touched||fullName.dirty)">
+                        <span *ngIf="fullName.errors.required">
+                            El nombre del paciente es requerido.
+                        </span>
+                    </div>
                 </div>
                 <div class="d-flex w-25 flex-column form-group">
                     <label for="age">Edad</label>
-                    <input type="number" class="form-control" name="age" [(ngModel)]="test.patient.age" required>
+                    <input type="number" class="form-control" name="age" min="0" max="150" #age="ngModel" [(ngModel)]="test.patient.age" required>
+                    <div class="form_error" *ngIf="age.invalid&&(age.touched||age.dirty)">
+                        <span *ngIf="age.errors.required">
+                            La edad del paciente es requerida.
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="d-flex w-100">
                 <div class="d-flex w-100 flex-column form-group">
                     <label for="dni">DNI</label>
-                    <input type="text" class="form-control" name="dni" [(ngModel)]="test.patient.dni" placeholder="DNI" required>
+                    <input type="text" class="form-control" name="dni" minlength="8" maxlength="8" #dni="ngModel" [(ngModel)]="test.patient.dni" placeholder="DNI" required>
+                    <div class="form_error" *ngIf="dni.invalid&&(dni.touched||dni.dirty)">
+                        <span *ngIf="dni.errors.required">
+                            El DNI del paciente es requerido.
+                        </span>
+                        <span *ngIf="dni.errors.minlength">
+                            El DNI no puede tener menos de 8 digitos.
+                        </span>
+                        <span *ngIf="dni.errors.maxlength">
+                            El DNI no puede tener mas de 8 digitos.
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="d-flex w-100">                
@@ -30,19 +56,22 @@
                     <label for="testDate">Fecha del examen</label>
                     <input type="date" class="form-control" name="testDate" [value]="test.patient.testDate|date:'yyyy-MM-dd'" 
                     (change)="handleDateInput($event.target.name, $event.target.value)" required>
-                    <small>{{test.patient.testDate}}</small>
                 </div>
                 <div class="d-flex w-50 flex-column form-group">
                     <label for="informDate">Fecha del informe</label>
                     <input type="date" class="form-control" name="informDate" [value]="test.patient.informDate|date:'yyyy-MM-dd'" 
                     (change)="handleDateInput($event.target.name, $event.target.value)" required>
-                    <small>{{test.patient.informDate}}</small>
                 </div>
             </div>
             <div class="d-flex w-100">                
                 <div class="d-flex w-100 flex-column form-group">
                     <label for="remarks">Observaciones</label>
-                    <textarea class="form-control" name="remarks" [(ngModel)]="test.patient.remarks" placeholder="Observaciones" required></textarea>
+                    <textarea class="form-control" name="remarks" #remarks="ngModel" [(ngModel)]="test.patient.remarks" placeholder="Observaciones" required></textarea>
+                    <div class="form_error" *ngIf="remarks.invalid&&(remarks.touched||remarks.dirty)">
+                        <span *ngIf="remarks.errors.required">
+                            Las observaciones son requeridas.
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,7 +80,7 @@
             <small *ngIf="test.testFile">Archivo actual: {{test.testFile}}</small>
         </div>
         <div class="flex w-75">
-            <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar">
+            <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="testForm.invalid">
         </div>
     </div>
 </form>

@@ -20,11 +20,13 @@ import { NewUserAdminComponent } from './components/new-user-admin/new-user-admi
 import { GetMyTestComponent } from './components/get-my-test/get-my-test.component';
 import { GetMyTestsComponent } from './components/get-my-tests/get-my-tests.component';
 import { GetTestsAdminComponent } from './components/get-tests-admin/get-tests-admin.component';
+import { GetTestsDoctorComponent } from './components/get-tests-doctor/get-tests-doctor.component';
+import { ReviewTestComponent } from './components/review-test/review-test.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'hogar', redirectTo: '/', canActivate: [AuthGuard] },
-    { path: 'registro', component: NewUserComponent },
+    //{ path: 'registro', component: NewUserComponent },
     { path: 'inicio-sesion', component: AuthComponent },
     { path: 'nuevo-usuario', component: NewUserAdminComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
     { path: 'usuario/:id', component: GetUserComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
     { path: 'mi-examen/:id', component: GetMyTestComponent, canActivate: [AuthGuard] },
     { path: 'mis-examenes', component: GetMyTestsComponent, canActivate: [AuthGuard] },
     { path: 'actualizar-mi-examen/:id', component: UpdateMyTestComponent, canActivate: [AuthGuard] },
-    //{ path: 'doctor-examenes', component: GetTestsComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.doctor } },
+    { path: 'doctor-examenes', component: GetTestsDoctorComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.doctor } },
+    { path: 'revisar-examen/:id', component:ReviewTestComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.doctor } },
     { path: 'examen/:id', component: GetTestComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
     { path: 'examenes', component: GetTestsAdminComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
     { path: 'actualizar-examen/:id', component: UpdateTestComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },

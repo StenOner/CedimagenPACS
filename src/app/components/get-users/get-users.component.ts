@@ -8,15 +8,14 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-get-users',
   templateUrl: './get-users.component.html',
   styleUrls: ['./get-users.component.scss'],
-  providers: [UserService, RefreshTokenOnActionService, TranslateUserStatePipe]
+  providers: [UserService, RefreshTokenOnActionService]
 })
 export class GetUsersComponent implements OnInit {
   public users: User[];
 
   constructor(
     private _userService: UserService,
-    private _refreshToken: RefreshTokenOnActionService,
-    private translateUserStatePipe: TranslateUserStatePipe
+    private _refreshToken: RefreshTokenOnActionService
   ) {
     this.users = new Array();
   }
@@ -31,24 +30,25 @@ export class GetUsersComponent implements OnInit {
         if (res.users) this.users = res.users;
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
 
   async deleteUser(user: User) {
-    let c = confirm(`Estas seguro que deseas cambiar el estado de este usuario a ${this.translateUserStatePipe.transform(String(!user.state))}?`);
+    const action = user.state ? 'desactivar':'activar';
+    let c = confirm(`Esta seguro que desea ${action} esta cuenta?`);
     if (c) {
       if (await this._refreshToken.onAction()) {
         user.state = !user.state;
         this._userService.updateUser(user).subscribe(
           res => {
             if (res.user) {
-
+              alert('Usuario desactivado exitosamente.')
             }
           },
           err => {
-            console.log(err.error.message);
+            alert(err.error.message);
           }
         );
       }

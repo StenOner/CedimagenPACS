@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
@@ -12,16 +12,15 @@ import { TestService } from 'src/app/services/test.service';
 })
 export class GetMyTestComponent implements OnInit {
   public test: Test;
-  public clientID: string;
   public url: string;
   public id: string;
 
   constructor(
     private _testService: TestService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.test = new Test();
-    this.clientID = '';
     this.url = Environment.url;
     this.id = '';
   }
@@ -47,9 +46,13 @@ export class GetMyTestComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
+  }
+
+  redirectDownload() {
+    window.open(`${this.url}download/${this.test._id}-${this.test.responseFile}`, 'blank')
   }
 
 }

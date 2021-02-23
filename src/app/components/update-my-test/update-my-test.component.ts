@@ -7,7 +7,7 @@ import { UploadFileService } from 'src/app/services/upload-file.service';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-my-test',
@@ -28,7 +28,8 @@ export class UpdateMyTestComponent implements OnInit {
     private _testTypeService: TestTypeService,
     private _uploadFileService: UploadFileService,
     private _refreshService: RefreshTokenOnActionService,
-    private route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private router: Router
   ) {
     this.id = '';
     this.test = new Test();
@@ -45,7 +46,7 @@ export class UpdateMyTestComponent implements OnInit {
   }
 
   getParams() {
-    this.route.params.subscribe(
+    this._route.params.subscribe(
       params => {
         this.id = params.id
       }
@@ -61,7 +62,7 @@ export class UpdateMyTestComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -77,30 +78,33 @@ export class UpdateMyTestComponent implements OnInit {
     this.updateTest$.subscribe(
       res => {
         if (res.test) {
-          console.log('Examen actualizado con exito.');
           if (this.fileToUpload != null) {
             this.uploadFile(res.test._id);
+          } else {
+            alert('Examen actualizado con exito.');
+            this.router.navigate(['/mis-examenes']);
           }
         }
       },
       err => {
         this.updateTest$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
 
   uploadFile(testID?: string) {
-    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadFile(testID, this.fileToUpload).pipe(shareReplay(1));
+    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadSign(testID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
-          console.log('Archivo actualizado exitosamente.');
+          alert('El examen se guardo correctamente.');
+          this.router.navigate(['/mis-examenes']);
         }
       },
       err => {
         this.uploadFile$ = null;
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     );
   }
@@ -113,7 +117,7 @@ export class UpdateMyTestComponent implements OnInit {
         }
       },
       err => {
-        console.log(err.error.message);
+        alert(err.error.message);
       }
     )
   }

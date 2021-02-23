@@ -6,7 +6,7 @@
                 <th>Correo</th>
                 <th>Tipo de Usuario</th>
                 <th>Nombre de Usuario</th>
-                <th>RUC</th>
+                <th>DNI</th>
                 <th>Fecha de creacion</th>
                 <th>Cuenta activa</th>
                 <th>Acciones</th>
@@ -18,7 +18,7 @@
                 <td>{{user.email}}</td>
                 <td>{{$any(user.userTypeID).type|titlecase}}</td>
                 <td>{{user.userName|titlecase}}</td>
-                <td>{{user.ruc}}</td>
+                <td>{{user.dni}}</td>
                 <td>{{user.createdAt|date}}</td>
                 <td [style.color]="user.state?'#5cb85c':'#d9534f'">
                     {{user.state|translateUserState}}
