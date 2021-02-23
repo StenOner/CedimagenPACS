@@ -70,7 +70,7 @@ export class NewTestComponent implements OnInit {
   }
 
   uploadFile(testID?: string) {
-    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadSign(testID, this.fileToUpload).pipe(shareReplay(1));
+    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadFile(testID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
