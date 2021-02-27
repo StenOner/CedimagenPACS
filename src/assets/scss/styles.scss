@@ -16,16 +16,20 @@ body {
   background-position: center;
   background-attachment: fixed;
   height: 100%;
-  color: white;
+  color: white !important;
   font-family: 'Numans', sans-serif;
   overflow-x: hidden !important;
 }
 
-*{
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  &::-webkit-scrollbar{
-    display: none; /* Chrome */
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+    /* Chrome */
   }
 }
 
@@ -43,7 +47,7 @@ body {
 }
 
 .card-header {
-  h3{
+  h3 {
     color: white;
   }
 }
@@ -52,21 +56,26 @@ body {
   position: absolute;
   right: 20px;
   top: -30px;
-  a{
+
+  a {
     font-size: 45px;
     margin-left: 10px;
     color: $secondary;
-    &:hover{
+
+    &:hover {
       color: white;
       cursor: pointer;
     }
   }
 }
 
-.input-group-prepend, .input-group-append {
+.input-group-prepend,
+.input-group-append {
   margin: 0;
   max-width: 38px;
-  span, a{
+
+  span,
+  a {
     width: 100%;
     background-color: $secondary;
     color: black;
@@ -75,7 +84,7 @@ body {
 }
 
 input {
-  &:focus{
+  &:focus {
     outline: 0 0 0 0 !important;
     border-color: $secondary !important;
     box-shadow: 0 0 0 0 !important;
@@ -84,6 +93,7 @@ input {
 
 .remember {
   color: white;
+
   input {
     width: 20px;
     height: 20px;
@@ -94,78 +104,88 @@ input {
 
 .login_btn {
   width: 100px;
-  &:hover{
+
+  &:hover {
     color: white;
   }
 }
 
 .links {
   color: white;
-  a{
+
+  a {
     margin-left: 4px;
   }
 }
 
-.custom-link{
+.custom-link {
   color: $secondary;
-  &:hover{
+
+  &:hover {
     color: rgba($color: $secondary, $alpha: 0.7);
   }
 }
 
-.bg-custom{
+.bg-custom {
   background: transparent;
-  *{
+
+  * {
     color: white;
-    &:hover{
+
+    &:hover {
       color: rgba($color: white, $alpha: 0.8)
     }
   }
 }
 
-.nav-text{
+.nav-text {
   font-size: 18px !important;
 }
 
-.nav-link{
+.nav-link {
   padding: 0 0.5rem 0 0.5rem !important;
-  i{   
+
+  i {
     font-size: 30px;
   }
 }
 
-.navbar-toggler-icon{
+.navbar-toggler-icon {
   color: white !important;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   background: black;
-  *:hover{
+
+  *:hover {
     background: rgba($color: $notSoDark, $alpha: 0.8);
   }
-  span{
+
+  span {
     cursor: pointer;
   }
 }
 
-.user-table{
+.user-table {
   width: 100%;
-  tbody{
-    tr{
+
+  tbody {
+    tr {
       border-top: 1px solid white;
     }
   }
 }
 
-.action-link{
+.action-link {
   margin-right: 5px;
   cursor: pointer;
-  i{
+
+  i {
     color: $primary;
   }
 }
 
-.sidebar{
+.sidebar {
   height: 100%;
   width: 15%;
   position: relative;
@@ -174,21 +194,26 @@ input {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  .sidebar-item{
+
+  .sidebar-item {
     width: 100%;
     margin-top: 2rem;
     text-align: center;
     border-bottom: 1px solid rgba($color: white, $alpha: 0.7);
-    &.delete{
+
+    &.delete {
       border-bottom: 1px solid rgba($color: red, $alpha: 0.7);
-      a{
+
+      a {
         color: red !important;
       }
     }
-    a{
+
+    a {
       color: white;
       text-transform: capitalize;
-      &:hover{
+
+      &:hover {
         text-decoration: none;
         color: rgba($color: white, $alpha: 0.8);
       }
@@ -196,14 +221,15 @@ input {
   }
 }
 
-.sidebar-active{
+.sidebar-active {
   background-color: rgba($color: $notSoDark, $alpha: 0.95);
-  a{
+
+  a {
     color: rgba($color: white, $alpha: 0.8) !important;
   }
 }
 
-.user-info{
+.user-info {
   background-color: rgba($color: $notSoDark, $alpha: 0.95);
   float: left;
   width: 85%;
@@ -211,15 +237,17 @@ input {
   margin-top: 1rem;
 }
 
-.form-control{
+.form-control {
   border: 1px solid transparent;
   color: white;
   background-color: rgba($color: $betterGrey, $alpha: 1);
-  &:disabled{
+
+  &:disabled {
     color: rgba($color: white, $alpha: 0.6);
     background-color: rgba($color: white, $alpha: 0.3);
   }
-  &:focus{
+
+  &:focus {
     color: white;
     background-color: rgba($color: black, $alpha: 1.0);
     box-shadow: none !important;
@@ -228,15 +256,16 @@ input {
   }
 }
 
-span.user-name{
+span.user-name {
   font-size: 18px;
   text-transform: capitalize;
-  &:hover{
+
+  &:hover {
     color: white;
   }
 }
 
-.btn-small{
+.btn-small {
   padding: 0.2rem;
   border-radius: 0.2rem;
   font-size: 1rem;
@@ -245,27 +274,30 @@ span.user-name{
   vertical-align: middle;
 }
 
-.action-link-disabled{
+.action-link-disabled {
   margin-right: 5px;
   cursor: not-allowed;
-  i{
+
+  i {
     color: $betterGrey;
   }
 }
 
-hr{
+hr {
   border-top: 1px solid rgba($color: white, $alpha: 0.7) !important;
 }
 
-.file-preview{
+.file-preview {
   width: 256px;
   border: 1px dashed rgba($color: $primary, $alpha: 0.8);
   cursor: pointer;
-  img{
+
+  img {
     margin: 1rem;
     width: 96px;
   }
-  .download-body{
+
+  .download-body {
     width: 100%;
     height: 100%;
     background-color: rgba($color: $betterGrey, $alpha: 0.7);
@@ -274,19 +306,54 @@ hr{
   }
 }
 
-form input[disabled]{
+form input[disabled] {
   opacity: 0.4;
   border-color: $betterGrey !important;
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
-.form-error{
+.form-error {
   border: 1px solid red !important;
 }
 
-div.form_error span{
+div.form_error span {
   font-size: 12px;
-	padding: 3px;
-	color:red;
-	margin-left: 5px;
+  padding: 3px;
+  color: red;
+  margin-left: 5px;
+}
+
+.dataTables_wrapper {
+  width: 100% !important;
+}
+
+table.dataTable {
+  width: 100% !important;
+
+  tbody tr {
+    background-color: rgba($color: $betterGrey, $alpha: 0.7) !important;
+  }
+}
+
+.dataTables_length,
+.dataTables_info,
+.dataTables_filter,
+.dataTables_paginate {
+  color: white !important;
+
+  input {
+    color: white !important;
+  }
+
+  a {
+    color: white !important;
+  }
+}
+
+select[aria-controls^="DataTables_Table"] {
+  color: white !important;
+
+  option {
+    background-color: black !important;
+  }
 }

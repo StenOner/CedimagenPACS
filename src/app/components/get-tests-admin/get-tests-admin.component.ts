@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
@@ -10,9 +11,11 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['./get-tests-admin.component.scss'],
   providers: [TestService, RefreshTokenOnActionService]
 })
-export class GetTestsAdminComponent implements OnInit {
+export class GetTestsAdminComponent implements OnDestroy, OnInit {
   public url: string;
   public tests: Test[];
+  public dtOptions: DataTables.Settings;
+  public dtTrigger: Subject<any>;
 
   constructor(
     private _testService: TestService,
@@ -23,7 +26,19 @@ export class GetTestsAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 25,
+      language: {
+        url: '../../../assets/datatable/spanish.json'
+      }
+    };
+    this.dtTrigger = new Subject<any>();
     this.getTests();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   getTests() {
@@ -31,6 +46,7 @@ export class GetTestsAdminComponent implements OnInit {
       res => {
         if (res.tests){
           this.tests = res.tests;
+          this.dtTrigger.next();
         }
       },
       err => {

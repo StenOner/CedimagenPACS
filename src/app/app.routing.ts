@@ -25,7 +25,7 @@ import { ReviewTestComponent } from './components/review-test/review-test.compon
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'hogar', redirectTo: '/', canActivate: [AuthGuard] },
+    { path: 'hogar', redirectTo: '/' },
     //{ path: 'registro', component: NewUserComponent },
     { path: 'inicio-sesion', component: AuthComponent },
     { path: 'nuevo-usuario', component: NewUserAdminComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
@@ -49,4 +49,4 @@ const appRoutes: Routes = [
 ];
 
 export const appRoutingProviders: any[] = [];
-export const routing: ModuleWithProviders<RouterModule> = RouterModule.forRoot(appRoutes);
+export const routing: ModuleWithProviders<RouterModule> = RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' });

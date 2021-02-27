@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   public route: string;
   public typeDoctor: string;
   public fileToUpload: File;
+  public updateProfile$: Observable<any>;
   public uploadFile$: Observable<any>;
 
   constructor(
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit {
     this.user = new User();
     this.typeDoctor = Environment.doctor;
     this.fileToUpload = null;
+    this.updateProfile$ = null;
     this.uploadFile$ = null;
   }
 
@@ -63,11 +65,18 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this._userService.updateProfile(this.user).subscribe(
+    if (this.updateProfile$ == null) this.updateProfile$ = this._userService.updateProfile(this.user).pipe(shareReplay(1));
+    this.updateProfile$.subscribe(
       res => {
         if (res.message) {
-          if ((<UserType>this.user.userTypeID)._id === this.typeDoctor && this.fileToUpload != null) this.uploadFile(this.user._id);
-          else alert('Perfil actualizado correctamente.');
+          if ((<UserType>this.user.userTypeID)._id === this.typeDoctor && this.fileToUpload != null) {
+            this.updateProfile$ = null;
+            this.uploadFile(this.user._id);
+          }
+          else {
+            this.updateProfile$ = null
+            alert('Perfil actualizado correctamente.');;
+          }
         }
       },
       err => {
@@ -81,6 +90,7 @@ export class ProfileComponent implements OnInit {
     this.uploadFile$.subscribe(
       res => {
         if (res.test) {
+          this.uploadFile$ = null;
           alert('Perfil actualizado correctamente.');
         }
       },

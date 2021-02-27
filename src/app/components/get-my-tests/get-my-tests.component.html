@@ -1,5 +1,5 @@
 <div class="d-flex w-100 pl-3">
-    <table class="user-table text-center">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="user-table text-center row-border hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -17,6 +17,7 @@
                 <th>DNI</th>
                 <th>Nombre Completo</th>
                 <th>Edad</th>
+                <th colspan="6"></th>
             </tr>
         </thead>
         <tbody>

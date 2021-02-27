@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { routing, appRoutingProviders } from './app.routing';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { DataTablesModule } from "angular-datatables";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -60,6 +61,7 @@ import { DownloadComponent } from './components/download/download.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    DataTablesModule,
     routing
   ],
   providers: [

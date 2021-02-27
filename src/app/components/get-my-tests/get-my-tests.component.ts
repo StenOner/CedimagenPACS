@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
@@ -11,10 +12,12 @@ import { TestService } from 'src/app/services/test.service';
   styleUrls: ['./get-my-tests.component.scss'],
   providers: [TestService, RefreshTokenOnActionService, DecypherTokenService]
 })
-export class GetMyTestsComponent implements OnInit {
-  public myTests: Test[];
+export class GetMyTestsComponent implements OnDestroy, OnInit {
   public clientID: string;
   public url: string;
+  public myTests: Test[];
+  public dtOptions: DataTables.Settings;
+  public dtTrigger: Subject<any>;
 
   constructor(
     private _testService: TestService,
@@ -27,8 +30,20 @@ export class GetMyTestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 25,
+      language: {
+        url: '../../../assets/datatable/spanish.json'
+      }
+    };
+    this.dtTrigger = new Subject<any>();
     this.getUserID();
     this.getMyTests();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   getMyTests() {
@@ -36,6 +51,7 @@ export class GetMyTestsComponent implements OnInit {
       res => {
         if (res.tests) {
           this.myTests = res.tests;
+          this.dtTrigger.next();
         }
       },
       err => {
