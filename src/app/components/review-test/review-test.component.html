@@ -18,11 +18,11 @@
         <div class="d-flex w-75 form-group flex-row">
             <div class="d-flex w-75 form-group flex-column">
                 <label>Fecha del Examen</label>
-                <input type="text" class="form-control" [value]="test.patient.testDate|date" disabled>
+                <input type="text" class="form-control" [value]="test.patient.testDate|date:'dd/MM/yyyy'" disabled>
             </div>
             <div class="d-flex w-75 form-group flex-column">
                 <label>Fecha del Informe</label>
-                <input type="text" class="form-control" [value]="test.patient.informDate|date" disabled>
+                <input type="text" class="form-control" [value]="test.patient.informDate|date:'dd/MM/yyyy'" disabled>
             </div>
         </div>
         <div class="d-flex w-75 form-group flex-column">

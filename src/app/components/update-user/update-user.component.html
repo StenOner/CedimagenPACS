@@ -35,7 +35,7 @@
         </div>
         <div class="d-flex w-50 form-group flex-column">
             <label for="createdAt">Fecha de Creacion</label>
-            <input type="datetime" class="form-control" name="createdAt" [value]="user.createdAt|date" disabled>
+            <input type="datetime" class="form-control" name="createdAt" [value]="user.createdAt|date:'dd/MM/yyyy'" disabled>
         </div>
         <div class="d-flex w-50 form-group flex-column">
             <label for="state">Cuenta Activa</label>

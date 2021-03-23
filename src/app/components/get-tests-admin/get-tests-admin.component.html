@@ -20,7 +20,7 @@
                 <td>{{$any(test.clientID).email}}</td>
                 <td>{{$any(test.testTypeID).type}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
-                <td>{{test.createdAt|date}}</td>
+                <td>{{test.createdAt|date:'dd/MM/yyyy'}}</td>
                 <td>
                     <a class="action-link" target="blank" href="{{url}}download/{{test._id}}-{{test.testFile}}">
                         <i class="fas fa-file-download"></i>
@@ -34,7 +34,7 @@
                         En espera
                     </span>
                 </td>
-                <td *ngIf="test.reviewDate">{{test.reviewDate|date}}</td>
+                <td *ngIf="test.reviewDate">{{test.reviewDate|date:'dd/MM/yyyy'}}</td>
                 <td *ngIf="!test.reviewDate">
                     <span class="btn-small btn-danger">
                         En espera

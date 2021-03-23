@@ -27,7 +27,7 @@
                 <td>{{test.patient.dni}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
                 <td>{{test.patient.age}}</td>
-                <td>{{test.createdAt|date}}</td>
+                <td>{{test.createdAt|date:'dd/MM/yyyy'}}</td>
                 <td *ngIf="test.reviewedBy">
                     {{$any(test.reviewedBy).userName}}
                 </td>
@@ -37,7 +37,7 @@
                     </span>
                 </td>
                 <td *ngIf="test.reviewDate">
-                    {{test.reviewDate|date}}
+                    {{test.reviewDate|date:'dd/MM/yyyy'}}
                 </td>
                 <td *ngIf="!test.reviewDate">
                     <span class="btn-small btn-danger">

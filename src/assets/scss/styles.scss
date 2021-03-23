@@ -25,7 +25,6 @@ body {
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
-
   /* Firefox */
   &::-webkit-scrollbar {
     display: none;
@@ -243,13 +242,14 @@ input {
   background-color: rgba($color: $betterGrey, $alpha: 1);
 
   &:disabled {
+    border: 1px solid $betterGrey;
     color: rgba($color: white, $alpha: 0.6);
-    background-color: rgba($color: white, $alpha: 0.3);
+    background-color: rgba($color: black, $alpha: 0.8);
   }
 
   &:focus {
     color: white;
-    background-color: rgba($color: black, $alpha: 1.0);
+    background-color: rgba($color: black, $alpha: 1);
     box-shadow: none !important;
     border: 1px solid $secondary;
     transition: all 0.2s;

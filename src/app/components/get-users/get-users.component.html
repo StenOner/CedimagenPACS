@@ -19,7 +19,7 @@
                 <td>{{$any(user.userTypeID).type|titlecase}}</td>
                 <td>{{user.userName|titlecase}}</td>
                 <td>{{user.dni}}</td>
-                <td>{{user.createdAt|date}}</td>
+                <td>{{user.createdAt|date:'dd/MM/yyyy'}}</td>
                 <td [style.color]="user.state?'#5cb85c':'#d9534f'">
                     {{user.state|translateUserState}}
                 </td>

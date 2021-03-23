@@ -25,11 +25,11 @@
     <div class="d-flex w-75 form-group flex-row">
         <div class="d-flex w-75 form-group flex-column">
             <label>Fecha del Examen</label>
-            <input type="text" class="form-control" [value]="test.patient.testDate|date" disabled>
+            <input type="text" class="form-control" [value]="test.patient.testDate|date:'dd/MM/yyyy'" disabled>
         </div>
         <div class="d-flex w-75 form-group flex-column">
             <label>Fecha del Informe</label>
-            <input type="text" class="form-control" [value]="test.patient.informDate|date" disabled>
+            <input type="text" class="form-control" [value]="test.patient.informDate|date:'dd/MM/yyyy'" disabled>
         </div>
     </div>
     <div class="d-flex w-75 form-group flex-column">
@@ -44,7 +44,7 @@
             </div>
             <div class="d-flex w-50 flex-column form-group">
                 <label for="reviewDate">Fecha de la revision</label>
-                <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate ? (test.reviewDate|date) : 'EN ESPERA'" disabled>
+                <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate ? (test.reviewDate|date:'dd/MM/yyyy') : 'EN ESPERA'" disabled>
             </div>
         </div>
     </div>
