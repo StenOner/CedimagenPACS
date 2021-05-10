@@ -1,8 +1,10 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-users',
@@ -47,29 +49,54 @@ export class GetUsersComponent implements OnDestroy, OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener usuarios',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
 
   async deleteUser(user: User) {
     const action = user.state ? 'desactivar':'activar';
-    let c = confirm(`Esta seguro que desea ${action} esta cuenta?`);
-    if (c) {
+    Swal.fire({
+      title: `${new TitleCasePipe().transform(action)} usuario`,
+      icon: 'warning',
+      text: `Esta seguro que desea ${action} este usuario?`,
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: `${new TitleCasePipe().transform(action)}`,
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
       if (await this._refreshToken.onAction()) {
         user.state = !user.state;
         this._userService.updateUser(user).subscribe(
           res => {
             if (res.user) {
-              alert('Usuario desactivado exitosamente.')
+              Swal.fire({
+                title: 'Exito al actualizar',
+                icon: 'success',
+                text: user.state ? 'El usuario se activo correctamente.' : 'El usuario se desactivo correctamente.',
+                background: 'rgba(0, 0, 0, 1)'
+              });
             }
           },
           err => {
-            alert(err.error.message);
+            user.state = !user.state;
+            Swal.fire({
+              title: 'Error al actualizar',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
           }
         );
       }
-    }
+    });
   }
-
 }

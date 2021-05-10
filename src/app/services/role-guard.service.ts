@@ -27,27 +27,25 @@ export class RoleGuardService implements CanActivate {
     if (!(accessToken && refreshToken)) {
       this.redirect();
       return false;
-    } else {
-      const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
-      if (isExpired) {
-        try {
-          const res = await this._authService.refreshToken().toPromise();
-          localStorage.setItem(Environment.accessKey, res.accessToken);
-          if (payload.userTypeID !== expectedRole) return false;
-          return true;
-        } catch (err) {
-          this.removeItems();
-          return false;
-        }
-      } else {
-        if (!this._decypherTokenService.decodeToken(accessToken).exp) {
-          this.removeItems();
-          return false;
-        }
+    }
+    const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
+    if (isExpired) {
+      try {
+        const res = await this._authService.refreshToken().toPromise();
+        localStorage.setItem(Environment.accessKey, res.accessToken);
         if (payload.userTypeID !== expectedRole) return false;
         return true;
+      } catch (err) {
+        this.removeItems();
+        return false;
       }
     }
+    if (!(this._decypherTokenService.decodeToken(accessToken).exp)) {
+      this.removeItems();
+      return false;
+    }
+    if (payload.userTypeID !== expectedRole) return false;
+    return true;
   }
 
   removeItems() {

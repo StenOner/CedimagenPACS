@@ -44,6 +44,7 @@ export class NewUserComponent implements OnInit {
     if (this.user$ == null) this.user$ = this._userService.newUser(user).pipe(shareReplay(1));
     this.user$.subscribe(
       res => {
+        this.user$ = null;
         if (res.message) {
           this.router.navigate(['/inicio-sesion']);
         }

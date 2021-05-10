@@ -9,6 +9,7 @@ import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UploadFileService } from 'src/app/services/upload-file.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -53,7 +54,12 @@ export class ProfileComponent implements OnInit {
         if (res.user) this.user = res.user;
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -69,18 +75,29 @@ export class ProfileComponent implements OnInit {
     this.updateProfile$.subscribe(
       res => {
         if (res.message) {
+          this.updateProfile$ = null;
           if ((<UserType>this.user.userTypeID)._id === this.typeDoctor && this.fileToUpload != null) {
-            this.updateProfile$ = null;
-            this.uploadFile(this.user._id);
+            setTimeout(() => {
+              this.uploadFile(this.user._id);
+            }, 0);
+            return;
           }
-          else {
-            this.updateProfile$ = null
-            alert('Perfil actualizado correctamente.');;
-          }
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El perfil se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          });
         }
       },
       err => {
-        alert(err.error.message);
+        this.updateProfile$ = null;
+        Swal.fire({
+          title: 'Error al actualizar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -89,14 +106,24 @@ export class ProfileComponent implements OnInit {
     if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadSign(userID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
-        if (res.test) {
-          this.uploadFile$ = null;
-          alert('Perfil actualizado correctamente.');
+        this.uploadFile$ = null;
+        if (res.message) {
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El perfil se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          });
         }
       },
       err => {
         this.uploadFile$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al subir archivo',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }

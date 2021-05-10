@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-user-admin',
@@ -46,14 +47,26 @@ export class NewUserAdminComponent implements OnInit {
     if (this.user$ == null) this.user$ = this._userService.newUser(this.user).pipe(shareReplay(1));
     this.user$.subscribe(
       res => {
+        this.user$ = null;
         if (res.message) {
-          alert('Usuario creado con exito.');
-          this.router.navigate(['/usuarios']);
+          Swal.fire({
+            title: 'Exito al guardar',
+            icon: 'success',
+            text: 'El usuario se guardo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/usuarios']);
+          });
         }
       },
       err => {
         this.user$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al guardar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -66,9 +79,13 @@ export class NewUserAdminComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener tipos de usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
-
 }

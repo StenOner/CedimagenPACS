@@ -23,7 +23,7 @@
         <tbody>
             <tr *ngFor="let test of myTests;index as i">
                 <td>{{i+1}}</td>
-                <td>{{$any(test.testTypeID).type}}</td>
+                <td>{{$any(test.testTypeID)?.type}}</td>
                 <td>{{test.patient.dni}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
                 <td>{{test.patient.age}}</td>
@@ -34,7 +34,7 @@
                     </a>
                 </td>
                 <td *ngIf="test.reviewedBy">
-                    {{$any(test.reviewedBy).userName}}
+                    {{$any(test.reviewedBy)?.userName}}
                 </td>
                 <td *ngIf="!test.reviewedBy">
                     <span class="btn-small btn-danger">

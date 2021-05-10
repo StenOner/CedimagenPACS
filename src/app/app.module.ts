@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { routing, appRoutingProviders } from './app.routing';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './loader/interceptor.service';
 import { FormsModule } from '@angular/forms';
 import { DataTablesModule } from "angular-datatables";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -28,7 +30,8 @@ import { GetMyTestComponent } from './components/get-my-test/get-my-test.compone
 import { UpdateMyTestComponent } from './components/update-my-test/update-my-test.component';
 import { ReviewTestComponent } from './components/review-test/review-test.component';
 import { GetTestsDoctorComponent } from './components/get-tests-doctor/get-tests-doctor.component';
-import { DownloadComponent } from './components/download/download.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { GeneratePasswordComponent } from './components/generate-password/generate-password.component';
 
 @NgModule({
   declarations: [
@@ -55,16 +58,19 @@ import { DownloadComponent } from './components/download/download.component';
     UpdateMyTestComponent,
     ReviewTestComponent,
     GetTestsDoctorComponent,
-    DownloadComponent
+    ResetPasswordComponent,
+    GeneratePasswordComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     DataTablesModule,
+    MatProgressSpinnerModule,
     routing
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     appRoutingProviders
   ],
   bootstrap: [AppComponent]

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-test',
@@ -64,7 +65,12 @@ export class UpdateTestComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examen',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -79,34 +85,60 @@ export class UpdateTestComponent implements OnInit {
     if (this.updateTest$ == null) this.updateTest$ = this._testService.updateTest(this.test).pipe(shareReplay(1));
     this.updateTest$.subscribe(
       res => {
+        this.updateTest$ = null;
         if (res.test) {
           if (this.fileToUpload != null) {
-            this.uploadFile(res.test._id);
-          } else {
-            alert('Examen actualizado con exito.');
-            this.router.navigate(['/examenes']);
+            setTimeout(() => {
+              this.uploadFile(res.test._id);
+            }, 0);
+            return;
           }
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El examen se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/examenes']);
+          });
         }
       },
       err => {
         this.updateTest$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al actualizar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
 
   uploadFile(testID?: string) {
-    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadSign(testID, this.fileToUpload).pipe(shareReplay(1));
+    if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadFile(testID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
-        if (res.test) {
-          alert('El examen se guardo exitosamente.');
-          this.router.navigate(['/examenes']);
+        this.uploadFile$ = null;
+        if (res.message) {
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El examen se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/examenes']);
+          });
         }
       },
       err => {
         this.uploadFile$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al subir archivo',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -119,7 +151,12 @@ export class UpdateTestComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener tipos de examen',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -144,5 +181,4 @@ export class UpdateTestComponent implements OnInit {
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
   }
-
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-user',
@@ -44,9 +45,13 @@ export class GetUserComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
-
 }

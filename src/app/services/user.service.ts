@@ -9,7 +9,7 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class UserService {
-  public url: string;
+  private url: string;
 
   constructor(
     private _http: HttpClient
@@ -74,6 +74,26 @@ export class UserService {
       .set('Authorization', accessToken);
 
     return this._http.put(`${this.url}update-password`, { email, oldPassword, newPassword1, newPassword2 }, { headers: headers });
+  }
+
+  confirmResetPassword(email: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.post(`${this.url}confirm-reset-password`, { email }, { headers: headers });
+  }
+
+  generatePassword(id: string, token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.get(`${this.url}generate-password/${id}/${token}`, { headers: headers });
+  }
+
+  adminResetPassword(id: string): Observable<any> {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
+
+    return this._http.get(`${this.url}a-reset-password/${id}`, { headers: headers });
   }
 
   deleteUser(email: string, password: string): Observable<any> {

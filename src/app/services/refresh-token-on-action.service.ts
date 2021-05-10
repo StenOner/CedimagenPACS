@@ -23,25 +23,23 @@ export class RefreshTokenOnActionService {
     if (!(accessToken && refreshToken)) {
       this.redirect();
       return false;
-    } else {
-      const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
-      if (isExpired) {
-        try {
-          const res = await this._authService.refreshToken().toPromise();
-          localStorage.setItem(Environment.accessKey, res.accessToken);
-          return true;
-        } catch (err) {
-          this.removeItems();
-          return false;
-        }
-      } else {
-        if (!this._decypherTokenService.decodeToken(accessToken).exp) {
-          this.removeItems();
-          return false;
-        }
-        return true;
-      }
     }
+    const isExpired = this._decypherTokenService.isTokenExpired(accessToken);
+    if (isExpired) {
+      try {
+        const res = await this._authService.refreshToken().toPromise();
+        localStorage.setItem(Environment.accessKey, res.accessToken);
+        return true;
+      } catch (err) {
+        this.removeItems();
+        return false;
+      }
+    } 
+    if (!(this._decypherTokenService.decodeToken(accessToken).exp)) {
+      this.removeItems();
+      return false;
+    }
+    return true;
   }
 
   private removeItems() {

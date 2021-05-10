@@ -5,6 +5,7 @@ import { Test } from 'src/app/models/test';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { TestService } from 'src/app/services/test.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-my-tests',
@@ -55,7 +56,12 @@ export class GetMyTestsComponent implements OnDestroy, OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examenes',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -67,8 +73,18 @@ export class GetMyTestsComponent implements OnDestroy, OnInit {
   }
 
   async deleteMyTest(id: string) {
-    let c = confirm('Estas seguro que deseas eliminar este examen?');
-    if (c) {
+    Swal.fire({
+      title: 'Eliminar examen?',
+      icon: 'warning',
+      text: 'Esta accion es irreversible.',
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
       if (await this._refreshTokenService.onAction()) {
         this._testService.deleteTest(id).subscribe(
           res => {
@@ -76,15 +92,24 @@ export class GetMyTestsComponent implements OnDestroy, OnInit {
               this.myTests = this.myTests.filter(
                 test => test._id !== id
               );
-              alert('Examen eliminado exitosamente.');
+              Swal.fire({
+                title: 'Exito al eliminar',
+                icon: 'success',
+                text: 'El examen se elimino correctamente.',
+                background: 'rgba(0, 0, 0, 1)'
+              });
             }
           },
           err => {
-            alert(err.error.message);
+            Swal.fire({
+              title: 'Error al borrar examen',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
           }
         );
       }
-    }
+    });
   }
-
 }

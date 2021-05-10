@@ -1,9 +1,11 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { TestService } from 'src/app/services/test.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-tests-admin',
@@ -50,29 +52,54 @@ export class GetTestsAdminComponent implements OnDestroy, OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examenes',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
 
   async deleteTest(test: Test) {
     const action = test.state ? 'desactivar':'activar';
-    let c = confirm(`Esta seguro que desea ${action} este examen?`);
-    if (c) {
+    Swal.fire({
+      title: `${new TitleCasePipe().transform(action)} examen`,
+      icon: 'warning',
+      text: `Esta seguro que desea ${action} este examen?`,
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: `${new TitleCasePipe().transform(action)}`,
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
       if (await this._refreshToken.onAction()) {
         test.state = !test.state;
         this._testService.updateTest(test).subscribe(
           res => {
             if (res.test) {
-              alert('Examen desactivado exitosamente.')
+              Swal.fire({
+                title: 'Exito al actualizar',
+                icon: 'success',
+                text: test.state ? 'El examen se activo correctamente.' : 'El examen se desactivo correctamente.',
+                background: 'rgba(0, 0, 0, 1)'
+              });
             }
           },
           err => {
-            alert(err.error.message);
+            test.state = !test.state;
+            Swal.fire({
+              title: 'Error al actualizar',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
           }
         );
       }
-    }
+    });
   }
-
 }

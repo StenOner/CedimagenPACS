@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-test',
@@ -45,7 +46,12 @@ export class GetTestComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examen',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -53,5 +59,4 @@ export class GetTestComponent implements OnInit {
   redirectDownload() {
     window.open(`${this.url}download/${this.test._id}-${this.test.responseFile}`, 'blank')
   }
-
 }

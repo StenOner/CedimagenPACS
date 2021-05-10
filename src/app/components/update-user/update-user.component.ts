@@ -5,6 +5,7 @@ import { UserType } from 'src/app/models/user-type';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserTypeService } from 'src/app/services/user-type.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-user',
@@ -47,12 +48,23 @@ export class UpdateUserComponent implements OnInit {
     this._userService.updateUser(this.user).subscribe(
       res => {
         if (res.user) {
-          alert('Usuario actualizado exitosamente.');
-          this.router.navigate(['/usuarios']);
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El usuario se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/usuarios']);
+          });
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al actualizar usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -73,7 +85,12 @@ export class UpdateUserComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -86,8 +103,55 @@ export class UpdateUserComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener tipos de usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
+  }
+
+  async onResetPassword() {
+    if (this._refreshService.onAction()) {
+      this.resetPassword();
+    }
+  }
+
+  resetPassword() {
+    Swal.fire({
+      title: 'Resetear contraseña?',
+      icon: 'warning',
+      text: 'Resetear la contraseña del usuario.',
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Resetear',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+      this._userService.adminResetPassword(this.id).subscribe(
+        res => {
+          if (res.message) {
+            Swal.fire({
+              title: 'Exito al resetear la contraseña',
+              icon: 'success',
+              html: `La contraseña se reseteo correctamente a <b>${res.password}</b>`,
+              background: 'rgba(0, 0, 0, 1)'
+            });
+          }
+        },
+        err => {
+          Swal.fire({
+            title: 'Error al resetear la contraseña',
+            icon: 'error',
+            text: err.error.message,
+            background: 'rgba(0, 0, 0, 1)'
+          });
+        }
+      );
+    });
   }
 }

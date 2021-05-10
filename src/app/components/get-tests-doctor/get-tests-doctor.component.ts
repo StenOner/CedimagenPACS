@@ -5,6 +5,7 @@ import { Test } from 'src/app/models/test';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { TestService } from 'src/app/services/test.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-get-tests-doctor',
@@ -61,7 +62,12 @@ export class GetTestsDoctorComponent implements OnDestroy, OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examenes',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -71,5 +77,4 @@ export class GetTestsDoctorComponent implements OnDestroy, OnInit {
       await this._testService.openReview(id).toPromise();
     }
   }
-
 }

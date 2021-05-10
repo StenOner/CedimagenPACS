@@ -9,7 +9,7 @@ import { Environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class TestService {
-  public url: string;
+  private url: string;
 
   constructor(
     private _http: HttpClient

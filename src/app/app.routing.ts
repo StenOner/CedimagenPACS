@@ -7,6 +7,8 @@ import { RoleGuardService as RoleGuard } from './services/role-guard.service';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { GeneratePasswordComponent } from './components/generate-password/generate-password.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { GetUserComponent } from './components/get-user/get-user.component';
 import { GetUsersComponent } from './components/get-users/get-users.component';
@@ -28,6 +30,8 @@ const appRoutes: Routes = [
     { path: 'hogar', redirectTo: '/' },
     //{ path: 'registro', component: NewUserComponent },
     { path: 'inicio-sesion', component: AuthComponent },
+    { path: 'resetear-clave', component: ResetPasswordComponent },
+    { path: 'generar-clave/:id', component: GeneratePasswordComponent },
     { path: 'nuevo-usuario', component: NewUserAdminComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
     { path: 'usuario/:id', component: GetUserComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },
     { path: 'usuarios', component: GetUsersComponent, canActivate: [RoleGuard], data: { expectedRole: Environment.admin } },

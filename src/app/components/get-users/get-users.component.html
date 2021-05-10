@@ -16,7 +16,7 @@
             <tr *ngFor="let user of users;index as i">
                 <td>{{i+1}}</td>
                 <td>{{user.email}}</td>
-                <td>{{$any(user.userTypeID).type|titlecase}}</td>
+                <td>{{$any(user.userTypeID)?.type|titlecase}}</td>
                 <td>{{user.userName|titlecase}}</td>
                 <td>{{user.dni}}</td>
                 <td>{{user.createdAt|date:'dd/MM/yyyy'}}</td>

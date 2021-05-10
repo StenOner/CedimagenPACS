@@ -10,6 +10,7 @@ import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-a
 import { Environment } from 'src/app/environment/environment';
 import { DecypherTokenService } from 'src/app/services/decypher-token.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-test',
@@ -40,16 +41,21 @@ export class NewTestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserID();
     this.getTestTypes();
   }
 
   async onSubmit() {
     if (await this._refreshService.onAction()) {
       if (this.fileToUpload != null) {
-        this.getUserID();
         this.newTest();
       } else {
-        alert('Debe de seleccionar un archivo a subir.');        
+        Swal.fire({
+          title: 'Error al enviar',
+          icon: 'error',
+          text: 'Debe seleccionar un archivo a subir.',
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     }
   }
@@ -58,13 +64,21 @@ export class NewTestComponent implements OnInit {
     if (this.newTest$ == null) this.newTest$ = this._testService.newTest(this.test).pipe(shareReplay(1));
     this.newTest$.subscribe(
       res => {
+        this.newTest$ = null;
         if (res.test) {
-          this.uploadFile(res.test._id);
+          setTimeout(() => {
+            this.uploadFile(res.test._id);
+          }, 0);
         }
       },
       err => {
         this.newTest$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al guardar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -73,14 +87,26 @@ export class NewTestComponent implements OnInit {
     if (this.uploadFile$ == null) this.uploadFile$ = this._uploadFileService.uploadFile(testID, this.fileToUpload).pipe(shareReplay(1));
     this.uploadFile$.subscribe(
       res => {
-        if (res.test) {
-          alert('Examen guardado exitosamente.');
-          this.router.navigate(['/mis-examenes']);
+        this.uploadFile$ = null;
+        if (res.message) {
+          Swal.fire({
+            title: 'Exito al guardar',
+            icon: 'success',
+            text: 'El examen se guardo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/mis-examenes']);
+          });
         }
       },
       err => {
         this.uploadFile$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al subir archivo',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -99,7 +125,12 @@ export class NewTestComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener tipos de examen',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     )
   }
@@ -124,5 +155,4 @@ export class NewTestComponent implements OnInit {
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
   }
-
 }

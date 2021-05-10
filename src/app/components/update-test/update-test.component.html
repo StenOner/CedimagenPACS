@@ -6,7 +6,7 @@
         </div>
         <div class="d-flex w-75 form-group flex-column">
             <label for="clientID">Correo del usuario</label>
-            <input type="text" class="form-control" name="clientID" [value]="$any(test.clientID).email" disabled>
+            <input type="text" class="form-control" name="clientID" [value]="$any(test.clientID)?.email" disabled>
         </div>     
         <div class="d-flex w-75 form-group flex-column">
             <label for="testTypeID">Tipo de Examen</label>
@@ -62,12 +62,12 @@
             <div class="d-flex w-100">                
                 <div class="d-flex w-50 flex-column form-group">
                     <label for="testDate">Fecha del examen</label>
-                    <input type="date" class="form-control" name="testDate" [value]="test.patient.testDate|date:'yyyy-MM-dd'" 
+                    <input type="date" class="form-control" name="testDate" [value]="test.patient.testDate | date: 'yyyy-MM-dd'" 
                     (change)="handleDateInput($event.target.name, $event.target.value)" required>
                 </div>
                 <div class="d-flex w-50 flex-column form-group">
                     <label for="informDate">Fecha del informe</label>
-                    <input type="date" class="form-control" name="informDate" [value]="test.patient.informDate|date:'yyyy-MM-dd'" 
+                    <input type="date" class="form-control" name="informDate" [value]="test.patient.informDate | date: 'yyyy-MM-dd'" 
                     (change)="handleDateInput($event.target.name, $event.target.value)" required>
                 </div>
             </div>
@@ -87,29 +87,29 @@
             <div class="d-flex w-100">                
                 <div class="d-flex w-50 flex-column form-group">
                     <label for="testDate">Revisado por</label>
-                    <input type="text" class="form-control" name="testDate" [value]="$any(test.reviewedBy).userName" disabled>
+                    <input type="text" class="form-control" name="testDate" [value]="($any(test.reviewedBy)?.userName) || 'En espera'" disabled>
                 </div>
                 <div class="d-flex w-50 flex-column form-group">
                     <label for="reviewDate">Fecha de la revision</label>
-                    <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate|date" disabled>
+                    <input type="text" class="form-control" name="reviewDate" [value]="(test.reviewDate | date: 'dd/MM/yyyy') || 'En espera'" disabled>
                 </div>
             </div>
         </div>
         <div class="flex w-75 form-group">
-            <input type="file" class="btn btn-outline-primary" name="testFile" (change)="handleFileInput($event.target.files)" required>
+            <input type="file" accept=".dicom, .dcm" class="btn btn-outline-primary" name="testFile" (change)="handleFileInput($event.target.files)" required>
             <small *ngIf="test.testFile">Archivo actual: {{test.testFile}}</small>
         </div>
         <div class="d-flex w-75 form-group flex-column">
             <label for="createdAt">Fecha de Creacion</label>
-            <input type="text" class="form-control" name="_id" [value]="test.createdAt|date" disabled>
+            <input type="text" class="form-control" name="_id" [value]="test.createdAt | date: 'dd/MM/yyyy'" disabled>
         </div>
         <div class="d-flex w-75 form-group flex-column">
             <label for="state">Activo</label>
             <select class="form-control" name="state" #state="ngModel" [(ngModel)]="test.state" required>
                 <option value="" selected>Seleccione un estado</option>
-                <option *ngFor="let state of testStates" [value]="state">{{state|translateUserState}}</option>
+                <option *ngFor="let state of testStates" [value]="state">{{state | translateUserState}}</option>
             </select>
-            <div class="form_error" *ngIf="state.invalid&&(state.touched||state.dirty)">
+            <div class="form_error" *ngIf="state.invalid&&(state.touched || state.dirty)">
                 <span *ngIf="state.errors.required">
                     El estado es requerido.
                 </span>

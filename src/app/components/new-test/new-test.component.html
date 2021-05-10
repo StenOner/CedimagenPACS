@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="flex w-75">
-            <input type="file" class="btn btn-outline-primary" name="testFile" (change)="handleFileInput($event.target.files)" required>
+            <input type="file" accept=".dicom,.dcm" class="btn btn-outline-primary" name="testFile" (change)="handleFileInput($event.target.files)" required>
             <small *ngIf="test.testFile">Archivo actual: {{test.testFile}}</small>
         </div>
         <div class="flex w-75">

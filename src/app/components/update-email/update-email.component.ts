@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-email',
@@ -34,13 +35,22 @@ export class UpdateEmailComponent implements OnInit {
     this._userService.updateEmail(this.user._id, this.newEmail).subscribe(
       res => {
         if (res.message) {
-          alert('El correo ha sido actualizado correctamente.');
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'El correo se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          });
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al actualizar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
-
 }

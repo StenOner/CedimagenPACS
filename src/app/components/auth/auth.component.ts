@@ -5,6 +5,7 @@ import { shareReplay } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { Environment } from 'src/app/environment/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth',
@@ -52,10 +53,10 @@ export class AuthComponent implements OnInit {
       this.rememberMe = (rememberMe == 'true');
       this.rememberEmail = rememberEmail;
       document.getElementById('password').focus();
-    } else {
-      this.removeRemember();
-      document.getElementById('email').focus();
+      return;
     }
+    this.removeRemember();
+    document.getElementById('email').focus();
   }
 
   removeRemember() {
@@ -71,6 +72,7 @@ export class AuthComponent implements OnInit {
     if (this.login$ == null) this.login$ = this._authService.login(email, password).pipe(shareReplay(1));
     this.login$.subscribe(
       res => {
+        this.login$ = null;
         if (res.accessToken && res.refreshToken) {
           localStorage.setItem(Environment.accessKey, res.accessToken);
           localStorage.setItem(Environment.refreshKey, res.refreshToken);
@@ -78,8 +80,13 @@ export class AuthComponent implements OnInit {
         }
       },
       err => {
-        this.login$ = null
-        alert(err.error.message);
+        this.login$ = null;
+        Swal.fire({
+          title: 'Error de autenticacion',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }

@@ -6,6 +6,7 @@ import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { TestService } from 'src/app/services/test.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-review-test',
@@ -53,7 +54,12 @@ export class ReviewTestComponent implements OnInit {
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al obtener examen',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
@@ -68,14 +74,26 @@ export class ReviewTestComponent implements OnInit {
     if (this.saveReview$ == null) this.saveReview$ = this._testService.saveReview(this.test, this.reviewResponse).pipe(shareReplay(1));
     this.saveReview$.subscribe(
       res => {
+        this.saveReview$ = null;
         if (res.message) {
-          alert('El examen se reviso exitosamente.');
-          this.router.navigate(['/doctor-examenes']);
+          Swal.fire({
+            title: 'Exito al guardar',
+            icon: 'success',
+            text: 'El examen se reviso correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          }).then(()=>{
+            this.router.navigate(['/doctor-examenes']);
+          });
         }
       },
       err => {
         this.saveReview$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al guardar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       },
     );
   }

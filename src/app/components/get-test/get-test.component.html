@@ -5,11 +5,11 @@
     </div>
     <div class="d-flex w-75 form-group flex-column">
         <label>Correo del usuario</label>
-        <input type="text" class="form-control" [value]="$any(test.clientID).email" disabled>
+        <input type="text" class="form-control" [value]="$any(test.clientID)?.email" disabled>
     </div>
     <div class="d-flex w-75 form-group flex-column">
         <label>Tipo</label>
-        <input type="text" class="form-control" [value]="$any(test.testTypeID).type" disabled>
+        <input type="text" class="form-control" [value]="$any(test.testTypeID)?.type" disabled>
     </div>
     <h4>Paciente</h4>
     <div class="d-flex w-75 form-group flex-row">
@@ -40,11 +40,11 @@
         <div class="d-flex w-100">                
             <div class="d-flex w-50 flex-column form-group">
                 <label for="testDate">Revisado por</label>
-                <input type="text" class="form-control" name="testDate" [value]="test.reviewedBy ? $any(test.reviewedBy).userName : 'EN ESPERA'" disabled>
+                <input type="text" class="form-control" name="testDate" [value]="$any(test.reviewedBy)?.userName || 'En espera'" disabled>
             </div>
             <div class="d-flex w-50 flex-column form-group">
                 <label for="reviewDate">Fecha de la revision</label>
-                <input type="text" class="form-control" name="reviewDate" [value]="test.reviewDate ? (test.reviewDate|date:'dd/MM/yyyy') : 'EN ESPERA'" disabled>
+                <input type="text" class="form-control" name="reviewDate" [value]="(test.reviewDate | date: 'dd/MM/yyyy') || 'En espera'" disabled>
             </div>
         </div>
     </div>

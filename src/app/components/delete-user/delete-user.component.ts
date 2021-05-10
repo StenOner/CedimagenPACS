@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-delete-user',
@@ -43,21 +44,31 @@ export class DeleteUserComponent implements OnInit {
     if (this.deleteUser$ == null) this.deleteUser$ = this._userService.deleteUser(this.user.email, this.password).pipe(shareReplay(1));
     this.deleteUser$.subscribe(
       async res => {
+        this.deleteUser$ = null;
         if (res.user) {
           try {
             const logout = await this._authService.logout().toPromise();
             if (logout.message) this.clearStorage();
           } catch (err) {
-            this.deleteUser$ = null;
-            alert(err.error.message);
+            Swal.fire({
+              title: 'Error al eliminar usuario',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
           }
         }
       },
       err => {
         this.deleteUser$ = null;
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al eliminar usuario',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
-    )
+    );
   }
 
   clearStorage() {
@@ -65,5 +76,4 @@ export class DeleteUserComponent implements OnInit {
     localStorage.removeItem(Environment.refreshKey);
     this.router.navigate(['/inicio-sesion']);
   }
-
 }

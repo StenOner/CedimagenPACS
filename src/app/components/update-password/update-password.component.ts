@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { RefreshTokenOnActionService } from 'src/app/services/refresh-token-on-action.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-password',
@@ -33,7 +34,12 @@ export class UpdatePasswordComponent implements OnInit {
       if (this.newPassword1 === this.newPassword2) {
         this.updatePassword();
       } else {
-        alert('Las contraseñas deben de coincidir.');
+        Swal.fire({
+          title: 'Error al actualizar',
+          icon: 'error',
+          text: 'Las contraseñas no coinciden.',
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     }
   }
@@ -42,13 +48,22 @@ export class UpdatePasswordComponent implements OnInit {
     this._userService.updatePassword(this.user.email, this.password, this.newPassword1, this.newPassword2).subscribe(
       res => {
         if (res.message) {
-          alert('La contraseña se actualizo correctamente.');
+          Swal.fire({
+            title: 'Exito al actualizar',
+            icon: 'success',
+            text: 'La contraseña se actualizo correctamente.',
+            background: 'rgba(0, 0, 0, 1)'
+          });
         }
       },
       err => {
-        alert(err.error.message);
+        Swal.fire({
+          title: 'Error al actualizar',
+          icon: 'error',
+          text: err.error.message,
+          background: 'rgba(0, 0, 0, 1)'
+        });
       }
     );
   }
-
 }

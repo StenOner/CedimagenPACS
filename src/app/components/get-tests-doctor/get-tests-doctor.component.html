@@ -22,14 +22,14 @@
         <tbody>
             <tr *ngFor="let test of tests;index as i">
                 <td>{{i+1}}</td>
-                <td>{{$any(test.clientID).userName}}</td>
-                <td>{{$any(test.testTypeID).type}}</td>
+                <td>{{$any(test.clientID)?.userName}}</td>
+                <td>{{$any(test.testTypeID)?.type}}</td>
                 <td>{{test.patient.dni}}</td>
                 <td>{{test.patient.fullName|titlecase}}</td>
                 <td>{{test.patient.age}}</td>
                 <td>{{test.createdAt|date:'dd/MM/yyyy'}}</td>
                 <td *ngIf="test.reviewedBy">
-                    {{$any(test.reviewedBy).userName}}
+                    {{$any(test.reviewedBy)?.userName}}
                 </td>
                 <td *ngIf="!test.reviewedBy">
                     <span class="btn-small btn-danger">
@@ -49,10 +49,10 @@
                     (click)="openReview(test._id)">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a class="action-link" *ngIf="test.reviewedBy&&$any(test.reviewedBy)._id===userID" [routerLink]="['/revisar-examen', test._id]" >
+                    <a class="action-link" *ngIf="test.reviewedBy&&$any(test.reviewedBy)?._id===userID" [routerLink]="['/revisar-examen', test._id]" >
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a class="action-link-disabled" *ngIf="test.reviewedBy&&$any(test.reviewedBy)._id!==userID" onclick="return false;">
+                    <a class="action-link-disabled" *ngIf="test.reviewedBy&&$any(test.reviewedBy)?._id!==userID" onclick="return false;">
                         <i class="fas fa-eye-slash"></i>
                     </a>
                 </td>

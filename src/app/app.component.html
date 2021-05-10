@@ -1,4 +1,10 @@
-<nav class="navbar bg-custom navbar-expand-md" *ngIf="route!='/inicio-sesion'&&route!='/registro'">
+<div *ngIf="showLoader" class="loader-container">
+  <mat-spinner></mat-spinner>
+  <div>
+    <h3>Su peticion se completara en breve.</h3>
+  </div>
+</div>
+<nav class="navbar bg-custom navbar-expand-md" *ngIf="!route.includes('/inicio-sesion')&&!route.includes('/resetear-clave')&&!route.includes('/generar-clave')">
   <a class="navbar-brand" [routerLink]="['/']">CEDIMAGEN</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

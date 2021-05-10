@@ -1,5 +1,5 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit()">
-    <div class="d-flex w-100 pl-3 flex-column align-items-center">
+    <div class="d-flex w-100 pl-3 pb-3 flex-column align-items-center">
         <div class="d-flex w-50 form-group flex-column">
             <label for="id">ID</label>
             <input type="text" class="form-control" name="id" [value]="user._id" disabled>
@@ -51,6 +51,7 @@
         </div>
         <div class="flex w-50">
             <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="userForm.invalid">
+            <input type="button" class="btn btn-outline-danger float-right mr-1" value="Resetear Contraseña" (click)="onResetPassword()">
         </div>
     </div>
 </form>
