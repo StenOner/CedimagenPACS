@@ -66,6 +66,14 @@ export class TestService {
     return this._http.get(`${this.url}get-reviewable-test/${id}`, { headers: headers });
   }
 
+  unbindTest(id: string): Observable<any> {
+    const accessToken = localStorage.getItem(Environment.accessKey);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Authorization', accessToken);
+      
+    return this._http.put(`${this.url}unbind-test/${id}`, null, { headers: headers });
+  }
+
   openReview(id: string): Observable<any> {
     const accessToken = localStorage.getItem(Environment.accessKey);
     const headers = new HttpHeaders().set('Content-Type', 'application/json')

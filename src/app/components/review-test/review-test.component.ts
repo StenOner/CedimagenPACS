@@ -94,7 +94,47 @@ export class ReviewTestComponent implements OnInit {
           text: err.error.message,
           background: 'rgba(0, 0, 0, 1)'
         });
-      },
+      }
     );
+  }
+
+  async unbindTest() {
+    Swal.fire({
+      title: 'Desligar examen?',
+      icon: 'warning',
+      text: 'Esta accion desligara el examen de usted, permitiendo el acceso a otros doctores.',
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Desligar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+      if (await this._refreshTokenService.onAction()) {
+        this._testService.unbindTest(this.id).subscribe(
+          res => {
+            if (res.message) {
+              Swal.fire({
+                title: 'Exito al desligar examen',
+                icon: 'success',
+                text: res.message,
+                background: 'rgba(0, 0, 0, 1)'
+              }).then(()=>{
+                this.router.navigate(['/doctor-examenes']);
+              });
+            }
+          },
+          err => {
+            Swal.fire({
+              title: 'Error al desligar examen',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
+          }
+        );
+      }
+    });
   }
 }

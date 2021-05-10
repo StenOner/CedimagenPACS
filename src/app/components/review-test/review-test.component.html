@@ -54,6 +54,7 @@
         </div>
         <div class="flex w-75">
             <input type="submit" class="btn btn-outline-secondary float-right" value="Guardar" [disabled]="reviewForm.invalid">
+            <input type="button" class="btn btn-outline-danger float-right mr-1" value="Desligar examen" (click)="unbindTest()">
         </div>
         <br>
     </div>

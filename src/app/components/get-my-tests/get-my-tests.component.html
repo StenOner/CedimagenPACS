@@ -34,7 +34,7 @@
                     </a>
                 </td>
                 <td *ngIf="test.reviewedBy">
-                    {{$any(test.reviewedBy)?.userName}}
+                    Dr. {{$any(test.reviewedBy)?.userName}}
                 </td>
                 <td *ngIf="!test.reviewedBy">
                     <span class="btn-small btn-danger">

@@ -46,7 +46,6 @@
         "fillHorizontal": "Rellenar celdas horizontalmente",
         "fillVertical": "Rellenar celdas verticalmentemente"
     },
-    "decimal": ",",
     "searchBuilder": {
         "add": "Añadir condición",
         "button": {
@@ -127,7 +126,6 @@
             "_": "%d columnas seleccionadas"
         }
     },
-    "thousands": ".",
     "datetime": {
         "previous": "Anterior",
         "next": "Proximo",

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Environment } from 'src/app/environment/environment';
 import { Test } from 'src/app/models/test';
@@ -23,7 +24,8 @@ export class GetTestsDoctorComponent implements OnDestroy, OnInit {
   constructor(
     private _testService: TestService,
     private _decypherTokenService: DecypherTokenService,
-    private _refreshTokenService: RefreshTokenOnActionService
+    private _refreshTokenService: RefreshTokenOnActionService,
+    private router: Router
   ) {
     this.url = Environment.url;
     this.userID = '';
@@ -73,8 +75,35 @@ export class GetTestsDoctorComponent implements OnDestroy, OnInit {
   }
 
   async openReview(id: string) {
-    if (await this._refreshTokenService.onAction()) {
-      await this._testService.openReview(id).toPromise();
-    }
+    Swal.fire({
+      title: 'Revisar examen?',
+      icon: 'info',
+      text: 'Esta accion ligara el examen a usted.',
+      background: 'rgba(0, 0, 0, 1)',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Revisar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+      if (await this._refreshTokenService.onAction()) {
+        this._testService.openReview(id).subscribe(
+          res => {
+            if (res.message) {
+              this.router.navigate(['/revisar-examen', id])
+            }
+          },
+          err => {
+            Swal.fire({
+              title: 'Error al abrir revision de examen',
+              icon: 'error',
+              text: err.error.message,
+              background: 'rgba(0, 0, 0, 1)'
+            });
+          }
+        );
+      }
+    });
   }
 }
